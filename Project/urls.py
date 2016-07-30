@@ -20,4 +20,6 @@ from restaurant import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^form/', views.get_name),
+    # url(r'^thanks/', views.thanks),
 ]

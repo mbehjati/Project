@@ -144,6 +144,8 @@ class FoodType(models.Model):
     name = models.CharField(max_length=50)
     recipe = models.TextField()
     rate = models.FloatField(null=True)
+    price = models.IntegerField()
+
     # image = models.ImageField()
 
 
