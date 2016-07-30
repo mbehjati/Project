@@ -1,0 +1,33 @@
+.restaurant-branches{
+    background-image: url("images/junk-light.jpeg");
+    background-size: cover;
+    width: 100%;
+    height: auto;
+    padding-top: 5%;
+    padding-bottom: 10%;
+}
+.restaurant-branch{
+    direction: rtl;
+    border-radius: 25px;
+    background-color: rgba(245,245,245,0.8);
+    margin-right: 10%;
+    margin-left: 10%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    padding: 3%;
+}
+.restaurant-branch-img{
+    float: right;
+    width: 150px;
+    height:150px;
+    margin-left: 2%;
+}
+.restaurant-branch-info-title{
+    font-size: xx-large;
+    margin-bottom: 2%;
+    margin-top: 1%;
+}
+.restaurant-branch-info{
+    font-size: x-large;
+    margin-bottom: 0.3%;
+}
