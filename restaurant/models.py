@@ -1,5 +1,6 @@
 from enum import unique
 
+from django.core.mail import send_mail
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -19,10 +20,16 @@ class User(models.Model):
     phone_number = models.CharField(max_length=11)
     email = models.EmailField()
 
+    def __str__(self):
+        return self.username
+
 
 class Warehouse(models.Model):
     warehouse_id = models.IntegerField(primary_key=True)
     address = models.TextField()
+
+    def __str__(self):
+        return self.warehouse_id
 
 
 class Material(models.Model):
@@ -39,6 +46,13 @@ class MaterialInWarehouse(models.Model):
 class Branch(models.Model):
     branch_id = models.IntegerField(primary_key=True)
     address = models.TextField()
+    phone_number = models.CharField(max_length=11)
+    domain = models.TextField(null=True)
+
+    # TODO: mahdude ghabele ersal
+
+    def __str__(self):
+        return "branch " + str(self.branch_id)
 
 
 class Employee(models.Model):
@@ -46,9 +60,12 @@ class Employee(models.Model):
     employee_id = models.IntegerField(primary_key=True)
     branch = models.ForeignKey(Branch)
 
+    def __str__(self):
+        return str(self.employee_id) + " : " + self.name
+
 
 class Cook(models.Model):
-    cook_id = models.OneToOneField(Employee, primary_key =True)
+    cook_id = models.OneToOneField(Employee, primary_key=True)
 
 
 class Ability(models.Model):
@@ -73,23 +90,23 @@ class TaskEmployee(models.Model):
 
 
 class ParkingMan(models.Model):
-    parking_man_id = models.OneToOneField(Employee, primary_key =True)
+    parking_man_id = models.OneToOneField(Employee, primary_key=True)
 
 
 class Waiter(models.Model):
-    waiter_id = models.OneToOneField(Employee, primary_key =True)
+    waiter_id = models.OneToOneField(Employee, primary_key=True)
 
 
 class WarehouseMan(models.Model):
-    warehouse_man_id = models.OneToOneField(Employee, primary_key =True)
+    warehouse_man_id = models.OneToOneField(Employee, primary_key=True)
 
 
 class DeliveryMan(models.Model):
-    delivery_man_id = models.OneToOneField(Employee, primary_key =True)
+    delivery_man_id = models.OneToOneField(Employee, primary_key=True)
 
 
 class Clerk(models.Model):
-    clerk_id = models.OneToOneField(Employee, primary_key =True)
+    clerk_id = models.OneToOneField(Employee, primary_key=True)
 
 
 class CommentEmp(models.Model):
@@ -111,6 +128,8 @@ class Order(models.Model):
 
 class Menu(models.Model):
     # image = models.ImageField()
+    name = models.CharField(max_length=50)
+    description = models.TextField(null=True)
     branch = models.ForeignKey(Branch)
 
 
@@ -122,8 +141,9 @@ class PeriodicOrder(models.Model):
 
 
 class FoodType(models.Model):
+    name = models.CharField(max_length=50)
     recipe = models.TextField()
-    rate = models.FloatField()
+    rate = models.FloatField(null=True)
     # image = models.ImageField()
 
 
@@ -169,3 +189,62 @@ class Comment(models.Model):
     date = models.DateTimeField()
     user = models.ForeignKey(User)
     food = models.ForeignKey(FoodType)
+
+
+class Email(models.Model):
+    title = models.CharField(max_length=50)
+    body = models.TextField()
+    to_be_send = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
+
+
+class DiscountCode(models.Model):
+    code = models.IntegerField()
+    description = models.CharField(max_length=50)
+    to_be_send = models.BooleanField()
+    percent = models.IntegerField()  # TODO: between 0 to 100 checking
+    deadline = models.DateField()
+
+    # TODO: foreach foodType ?
+
+    def __str__(self):
+        return str(self.code)
+
+
+# class FoodOfferSetting(models.Model):
+#     class Meta:
+#         abstract = True
+#
+#     def save(self, *args, **kwargs):
+#         self.__class__.objects.exclude(id=self.id).delete()
+#         super(FoodOfferSetting, self).save(*args, **kwargs)
+#
+#     @classmethod
+#     def load(cls):
+#         try:
+#             return cls.objects.get()
+#         except cls.DoesNotExist:
+#             return cls()
+
+
+class SingletonModel(models.Model):
+    # class Meta:
+    #     abstract = True
+
+    name = models.CharField(max_length=20)
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    @classmethod
+    def load(cls):
+        obj, created = cls.objects.get_or_create(pk=1)
+        return obj
+
+
