@@ -213,31 +213,14 @@ class DiscountCode(models.Model):
         return str(self.code)
 
 
-# class FoodOfferSetting(models.Model):
-#     class Meta:
-#         abstract = True
-#
-#     def save(self, *args, **kwargs):
-#         self.__class__.objects.exclude(id=self.id).delete()
-#         super(FoodOfferSetting, self).save(*args, **kwargs)
-#
-#     @classmethod
-#     def load(cls):
-#         try:
-#             return cls.objects.get()
-#         except cls.DoesNotExist:
-#             return cls()
-
-
-class SingletonModel(models.Model):
-    # class Meta:
-    #     abstract = True
-
-    name = models.CharField(max_length=20)
+class Setting(models.Model):
+    last_orders = models.BooleanField()
+    most_liked = models.BooleanField()
+    best_offer = models.BooleanField()
 
     def save(self, *args, **kwargs):
         self.pk = 1
-        super(SingletonModel, self).save(*args, **kwargs)
+        super(Setting, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
         pass
@@ -248,3 +231,5 @@ class SingletonModel(models.Model):
         return obj
 
 
+class TestModel(models.Model):
+    name = models.CharField(max_length=10)

@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.core.mail import send_mail
 
 from restaurant.models import User, Employee, Cook, ParkingMan, WarehouseMan, Waiter, DeliveryMan, Clerk, Branch, \
-    Comment, Menu, CommentEmp, FoodType, FoodInMenu, FoodInBranch, Email, DiscountCode, SingletonModel
+    Comment, Menu, CommentEmp, FoodType, FoodInMenu, FoodInBranch, Email, DiscountCode, Setting, TestModel
 
 
 def send_mail_to_users(modeladmin, request, queryset):
@@ -145,10 +145,15 @@ class AdminDiscountCode(admin.ModelAdmin):
     pass
 
 
-@admin.register(SingletonModel)
-class AdminFoodOfferSetting(admin.ModelAdmin):
+@admin.register(Setting)
+class AdminMySettings(admin.ModelAdmin):
     actions = [check, uncheck]
     pass
 
+
+@admin.register(TestModel)
+class AdminTestModel(admin.ModelAdmin):
+    actions = [check, uncheck]
+    pass
 
 # admin.site.register(SingletonModel)
