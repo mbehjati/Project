@@ -149,6 +149,12 @@ class FoodType(models.Model):
     # image = models.ImageField()
 
 
+class TasteType(models.Model):
+    name = models.TextField(max_length=50)
+
+
+
+
 class Food(models.Model):
     food_type = models.ForeignKey(FoodType)
     status = models.BooleanField()
