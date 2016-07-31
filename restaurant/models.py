@@ -126,6 +126,8 @@ class Order(models.Model):
     trackID = models.IntegerField()
     branch = models.ForeignKey(Branch)
     user = models.ForeignKey(User)
+    date = models.DateField()
+    time = models.TimeField()
 
 
 class Menu(models.Model):
