@@ -1,14 +1,15 @@
 {% extends 'restaurant/restaurant_base.html' %}
+{% load staticfiles %}
 {% block content %}
-    <link rel="stylesheet" href='branch.css'>
+    <link rel="stylesheet" href={% static "restaurant/branch.css" %}>
 
     <div class="restaurant-branches">
 
         {% for branch in branches %}
             <div class="restaurant-branch">
-                <img class="restaurant-branch-img" src="images/location.png">
+                <img class="restaurant-branch-img" src={% static "restaurant/images/location.png" %}>
                 <p class="restaurant-branch-info-title">
-                    {{ branch.name }}
+                    {{ branch.branch_id }}
                 </p>
                 <p class="restaurant-branch-info">
                     آدرس:
@@ -17,7 +18,7 @@
                 <br>
                 <p class="restaurant-branch-info">
                     شماره تماس:
-                {{ branch.phone }}
+                {{ branch.phone_number }}
                 </p>
             </div>
 

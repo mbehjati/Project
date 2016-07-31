@@ -13,24 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.staticfiles.urls import static
-
-import restaurant
 from Project import settings
-from restaurant import views
-from employee import viewsForEmployee
+from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^form/', views.get_name),
-    url(r'^restaurant/', include('restaurant.urls'))
-    # url(r'^$', views.index,name = 'index')
-    url(r'^employee/authentication/check',viewsForEmployee.authentication_check),
-    url(r'^employee/', viewsForEmployee.hello),
-    # url(r'^thanks/', views.thanks),
+    url(r'^$' , views.index , name = 'index'),
+    url(r'^branch', views.branch, name='branch'),
+    url(r'^menu', views.menu, name = 'menu'),
+    # url(r'^menu/(?P<food_name>w+)', views.food, name = 'food')
+
 ]
 
 urlpatterns += staticfiles_urlpatterns()

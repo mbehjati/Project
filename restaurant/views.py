@@ -1,9 +1,29 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Create your views here.
+from django.template import loader
+from .models import *
+
+def index(request):
+    return render(request, 'restaurant/home.html')
+
+def branch(request):
+    branches = Branch.objects.all()
+    return render(request, 'restaurant/branch.html', {'branches':branches})
+
+def menu(request):
+    foods = FoodType.objects.all()
+    return render(request, 'restaurant/menu.html', {'menu' : foods})
+
+# def food(request, food_name):
+
+
+from .forms import NameForm , SearchForm
 from restaurant.models import FoodType
 from .forms import NameForm, SearchForm
+
 
 
 def search_in_foods(form):

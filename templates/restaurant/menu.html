@@ -1,0 +1,26 @@
+{% extends 'restaurant/restaurant_base.html' %}
+
+{% block content %}
+
+    <div class="restaurant-menu-page">
+        {% for food in menu %}
+            <div class="restaurant-food-card mdl-card mdl-shadow--4dp">
+                <div class="mdl-card__media">
+                    <img src="{{ food.image.url }}" width="100%" height="auto" border="0"
+                                                  alt="">
+
+                    <!--TODO: put the image source here-->
+                </div>
+                <div class="mdl-card__supporting-text">
+                    {{ food.name }}
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    <a class="restaurant-food-card-btn mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                        اطلاعات بیشتر
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

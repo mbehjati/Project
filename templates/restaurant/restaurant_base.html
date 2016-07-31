@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.min.css">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.red-orange.min.css"/>
-    <link rel="stylesheet" href="base_styles.css">
+    {% load staticfiles %}
+
+    <link rel="stylesheet" href="{% static "restaurant/base_styles.css" %}">
     <style>
         #view-source {
             position: fixed;
@@ -56,11 +58,49 @@
     </div>
 
     <div class="android-content mdl-layout__content">
-
-        <!--div class="restaurant-main-picture">
-        </div-->
-
-
+{#        <div class="restaurant-food-detail">#}
+{#            <div class="restaurant-food-detail-info">#}
+{#                <img src="images/pizza.jpg" width="40%" height="auto">#}
+{#                <div class="restaurant-food-detail-text">#}
+{#                    <h4 class="mdl-title" style="font-family: 'X Yekan'">پیتزا مارگاریتا</h4>#}
+{#                    <br>#}
+{#                    <p>#}
+{#                        مواد اولیه: پپرونی- پنیر پیتزا- قارچ- زیتون- پنیر- سس مخصوص#}
+{#                    </p>#}
+{#                    <p>#}
+{#                        دستور پخت: ابتدا سس را روی خمیر میزنیم. سپس پپرونی قارچ و زیتون را روی آن میچینیم. در نهایت پنیر#}
+{#                        را روی آن میپاشیم و نیم ساعت داخل فر قرار میدهیم.#}
+{#                    </p>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="restaurant-food-detail-comments">#}
+{#                <ul class="list mdl-list">#}
+{#                    <li >#}
+{#                        <div class="restaurant-food-detail-comments-single">#}
+{#                            <p>#}
+{#                                به نظر من خیلی خوشمزه اس!!!#}
+{#                            </p>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li >#}
+{#                        <div class="restaurant-food-detail-comments-single">#}
+{#                            <p>#}
+{#                                به نظر من خیلی خوشمزه اس!!!#}
+{#                            </p>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                    <li >#}
+{#                        <div class="restaurant-food-detail-comments-single">#}
+{#                            <p>#}
+{#                                به نظر من خیلی خوشمزه اس!!!#}
+{#                            </p>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </div>#}
+{#        </div>#}
+        {% block content %}
+        {% endblock %}
         <footer class="mdl-mini-footer">
             <div class="restaurant-footer mdl-mini-footer__right-section">
                 <div class="mdl-logo">Title</div>

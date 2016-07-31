@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -131,3 +132,6 @@ EMAIL_HOST_USER = 'onlinefoodforyou@gmail.com'
 EMAIL_HOST_PASSWORD = 'minamelikamasoume'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+MEDIA_ROOT = '/Users/a/PycharmProjects/Project/pic_folder/'
+MEDIA_URL = '/pic_folder/'

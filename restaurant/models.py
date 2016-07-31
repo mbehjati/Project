@@ -154,6 +154,7 @@ class FoodType(models.Model):
     def __str__(self):
         return str(self.name)
         # image = models.ImageField()
+    image = models.ImageField(upload_to='food',null=True)
 
 
 class TasteType(models.Model):

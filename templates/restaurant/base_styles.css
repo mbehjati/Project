@@ -69,25 +69,86 @@ a img {
     margin-right: 1%;
 }
 
-.restaurant-footer{
-    /*direction: rtl;*/
-}
 .restaurant-main-menu{
     /*background-color: antiquewhite;*/
     background-image: url("images/junk-light.jpeg");
     width: 100%;
     height: auto;
+    text-align: center;
     background-size: cover;
 }
 .restaurant-main-menu-btn{
     background-color: gold;
-    height: 200px;
-    width: 200px;
+    width: 15vw;
+    height: 15vw;
     margin-top: 15%;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 4%;
+    margin-right: 4%;
     margin-bottom: 15%;
 }
+
+
 .restaurant-main-menu-btn:hover{
     background-color: crimson;
+}
+
+.restaurant-menu-page{
+    background-color: lemonchiffon;
+    background-size: cover;
+    text-align: center;
+    direction: rtl;
+}
+.restaurant-food-card{
+    direction: rtl;
+    width: 20%;
+    height: auto;
+    margin : 3%;
+    display: inline-block;
+}
+
+.restaurant-food-card-btn{
+    font-family: "X Yekan";
+}
+
+.restaurant-food-detail{
+    direction: rtl;
+    padding: 3%;
+    background-image: url('images/junk-light.jpeg');
+}
+
+.restaurant-food-detail-info{
+    padding: 4%;
+    background-color: rgba(245, 245, 245, 0.9);
+    overflow: auto;
+    margin-bottom: 2%;
+}
+.restaurant-food-detail-text{
+    width:100%;
+    text-align: justify;
+    text-justify: inter-word;
+}
+.restaurant-food-detail-info img{
+    float: right;
+    border: solid 2px black;
+    margin-left: 2%;
+}
+
+.restaurant-food-detail-comments{
+ padding: 4%;
+    background-color: rgba(245, 245, 245, 0.9);
+    overflow: auto;}
+
+.restaurant-food-detail-comments-single{
+    background-color: #fafafa;
+    padding: 2%;
+
+}
+
+.list li{
+    margin: 1%;
+}
+.restaurant-footer{
+    /*direction: rtl;*/
+      position: relative;
+
 }
