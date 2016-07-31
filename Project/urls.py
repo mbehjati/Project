@@ -17,9 +17,12 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from restaurant import views
+from employee import viewsForEmployee
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^form/', views.get_name),
+    url(r'^employee/authentication/check',viewsForEmployee.authentication_check),
+    url(r'^employee/', viewsForEmployee.hello),
     # url(r'^thanks/', views.thanks),
 ]

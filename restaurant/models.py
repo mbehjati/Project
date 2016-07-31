@@ -93,6 +93,8 @@ class ParkingMan(models.Model):
     parking_man_id = models.OneToOneField(Employee, primary_key=True)
 
 
+
+
 class Waiter(models.Model):
     waiter_id = models.OneToOneField(Employee, primary_key=True)
 
@@ -132,6 +134,9 @@ class Menu(models.Model):
     description = models.TextField(null=True)
     branch = models.ForeignKey(Branch)
 
+    def __str__(self):
+        return str(self.name)
+
 
 class PeriodicOrder(models.Model):
     weeks_num = models.IntegerField()
@@ -142,17 +147,20 @@ class PeriodicOrder(models.Model):
 
 class FoodType(models.Model):
     name = models.CharField(max_length=50)
-    recipe = models.TextField()
-    rate = models.FloatField(null=True)
+    recipe = models.TextField(null=True)
+    rate = models.FloatField(default=5)
     price = models.IntegerField()
 
-    # image = models.ImageField()
+    def __str__(self):
+        return str(self.name)
+        # image = models.ImageField()
 
 
 class TasteType(models.Model):
     name = models.TextField(max_length=50)
 
-
+    def __str__(self):
+        return str(self.name)
 
 
 class Food(models.Model):
@@ -166,6 +174,9 @@ class FoodInMenu(models.Model):
     food_type = models.ForeignKey(FoodType)
     menu = models.ForeignKey(Menu)
 
+    def __str__(self):
+        return str(self.food_type.name) + " - " + str(self.menu.name)
+
 
 class FoodInBranch(models.Model):
     food_type = models.ForeignKey(FoodType)
@@ -177,11 +188,17 @@ class Chair(models.Model):
     state = models.IntegerField()
     branch = models.ForeignKey(Branch)
 
+    def __str__(self):
+        return "chair "+ str(self.id)
+
 
 class Parking(models.Model):
     id = models.IntegerField(primary_key=True)
     state = models.IntegerField()
     branch = models.ForeignKey(Branch)
+
+    def __str__(self):
+        return "parking " + str(self.id)
 
 
 class MaterialInFood(models.Model):
@@ -241,3 +258,27 @@ class Setting(models.Model):
 
 class TestModel(models.Model):
     name = models.CharField(max_length=10)
+
+
+class FoodTypeTaste(models.Model):
+    food = models.ForeignKey(FoodType)
+    taste = models.ForeignKey(TasteType)
+
+    def __str__(self):
+        return str(self.food.name) + " - " + str(self.taste.name)
+
+
+class ChairInOrder(models.Model):
+    chair = models.ForeignKey(Chair)
+    order = models.ForeignKey(Order)
+
+    def __str__(self):
+        return "chair" + str(self.chair.id) + "for order "+ str(self.order.id)
+
+
+class ParkingInOrder(models.Model):
+    parking = models.ForeignKey(Parking)
+    order = models.ForeignKey(Order)
+
+    def __str__(self):
+        return "parking" + str(self.parking.id) + "for order " + str(self.order.id)

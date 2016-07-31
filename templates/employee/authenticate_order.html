@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Authentication</title>
+</head>
+<body>
+
+<form action="/employee/authentication/check" method="post">
+    {% csrf_token %}
+
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+
+<h4>
+    {% if order == null %} no result! <br> {% else %} order information: <br>{% endif %}{{ result.trackID }}
+
+</h4>
+
+<div>
+    <table>
+        <tr>
+            <th> Track ID : </th>
+            <th> {{ order.trackID }}</th>
+        </tr>
+        <tr>
+            <th> Name : </th>
+            <th> {{ order.user.name }}</th>
+        </tr>
+        <tr>
+            <th> </th>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

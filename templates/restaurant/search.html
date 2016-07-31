@@ -20,6 +20,10 @@
 {#    <button type="submit" name="_submit" class="btn">Submit</button>#}
 {#</form>#}
 
-<h1> {{ name }}</h1>
+<h1>
+    {% for key,value in result %}
+{{ key }} ,, {{ value.price }} <br>
+    {% endfor %}
+</h1>
 </body>
 </html>
