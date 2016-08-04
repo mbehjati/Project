@@ -1,28 +1,33 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title></title>
+     <link rel="stylesheet" href={% static "restaurant/forms.css" %}>
 </head>
 <body>
-{#{% include 'material/includes/material_css.html' %}#}
-{#{% include 'material/includes/material_js.html' %}#}
-<form action="/form/" method="post">
-    {% csrf_token %}
-
-    {{ form }}
-    <input type="submit" value="Submit" />
-</form>
-{#{% load material_form %}#}
-{#<form method="POST">#}
+{% load staticfiles %}
+{% include 'material/includes/material_css.html' %}
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+{% include 'material/includes/material_js.html' %}
+{#<form action="/form/" method="post">#}
 {#    {% csrf_token %}#}
-{#    {% form form=form %}{% endform %}#}
-{#    <button type="submit" name="_submit" class="btn">Submit</button>#}
+{##}
+{#    {{ form }}#}
+{#    <input type="submit" value="جستجو" />#}
 {#</form>#}
 
+{% load material_form %}
+<form action="/search/" method="POST">
+    {% csrf_token %}
+    {% form form=form %}{% endform %}
+    <button type="submit" name="_submit" class="btn">Submit</button>
+</form>
+
 <h1>
-    {% for key,value in result %}
-{{ key }} ,, {{ value.price }} <br>
+    {% for data in result %}
+{{ data }} <br>
     {% endfor %}
 </h1>
 </body>

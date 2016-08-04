@@ -14,19 +14,19 @@ class SearchForm(forms.Form):
         one_to_ten += ((i, str(i)),)
 
     all_tastes = TasteType.objects.all()
-    tastes = ()
+    tastes = (('همه' ,'همه' ),)
     for t in all_tastes:
-        tastes += ((t, t.name),)
+        tastes += ((t,t.name),)
 
     all_types = Menu.objects.all()
-    types = ()
+    types =  (('همه' ,'همه' ),)
     for t in all_types:
         types += ((t, t.name),)
 
-    name = forms.CharField(max_length=50)
-    type = forms.ChoiceField(label='type', widget=forms.Select, choices=types)
-    score_from = forms.ChoiceField(widget=forms.Select, choices=one_to_ten)
-    score_to = forms.ChoiceField(widget=forms.Select, choices=one_to_ten)
-    taste = forms.ChoiceField(label='taste', widget=forms.Select, choices=tastes)
-    price_from = forms.IntegerField()
-    price_to = forms.IntegerField()
+    name = forms.CharField(max_length=50 , required=False)
+    type = forms.ChoiceField(label='type', widget=forms.Select, choices=types , required=False)
+    score_from = forms.ChoiceField(widget=forms.Select, choices=one_to_ten , required=False)
+    score_to = forms.ChoiceField(widget=forms.Select, choices=one_to_ten , required=False)
+    taste = forms.ChoiceField(label='taste', widget=forms.Select, choices=tastes , required=False)
+    price_from = forms.IntegerField(required=False)
+    price_to = forms.IntegerField(required=False)
