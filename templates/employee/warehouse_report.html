@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>گزارش انبار</title>
+    <link rel="stylesheet" href={% static "employee/base_employee.css" %}>
+</head>
+<body>
+
+<div class = "head_buttons" >
+
+    <a href="http://127.0.0.1:8081/warehouseman/getReport">
+         <button id = "selected" class="link_for_task"style="vertical-align:middle"><span>گزارش انبار</span></button>
+    </a>
+    <a href="http://127.0.0.1:8081/warehouseman/addMaterial">
+        <button class="link_for_task"style="vertical-align:middle"><span> افزودن موجودی </span></button>
+    </a>
+</div>
+
+
+
+<div class="guide">
+    انباردار محترم،
+    <br>
+   برای مشاهده‌ی موجودی انبار مورد نظر خود را انتخاب کنید.
+</div>
+
+{% load staticfiles %}
+{% include 'material/includes/material_css.html' %}
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+{% include 'material/includes/material_js.html' %}
+
+{% load material_form %}
+
+<div class="my_form">
+    <form action="/warehouseman/getReport" method="POST">
+    {% csrf_token %}
+    {% form form=form %}
+
+    {% endform %}
+    <button type="submit" name="_submit" class="btn">مشاهده‌ی موجودی</button>
+</form>
+
+</div>
+
+{% if result != 'null' and result != 'first' %}
+    <div class="my_form">
+
+    <table>
+        <tr>
+            <th> ماده غذایی</th>
+            <th>  مقدار (بر حسب گرم)</th>
+            <th>  تاریخ انقضا </th>
+        </tr>
+         {% for data in result %}
+              <tr>
+                 <td> {{ data.material.name }}</td>
+                 <td> {{ data.value }}</td>
+                 <td> {{ data.expire_date }}</td>
+              </tr>
+        {% endfor %}
+    </table>
+    </div>
+    <div class="my_form">
+    آدرس انبار :
+    <br>
+    {{ address }}
+    </div>
+    {% elif result != 'first' %}
+    <div class="my_form">
+   موجودی در انبار نیست.
+    <br>
+        آدرس انبار :
+    <br>
+    {{ address }}
+    </div>
+
+{% endif %}
+
+
+
+
+</body>
+</html>

@@ -5,7 +5,8 @@ from django.core.mail import send_mail
 
 from restaurant.models import User, Employee, Cook, ParkingMan, WarehouseMan, Waiter, DeliveryMan, Clerk, Branch, \
     Comment, Menu, CommentEmp, FoodType, FoodInMenu, FoodInBranch, Email, DiscountCode, Setting, TestModel, TasteType, \
-    FoodTypeTaste, Order, Parking, Chair, ChairInOrder, ParkingInOrder
+    FoodTypeTaste, Order, Parking, Chair, ChairInOrder, ParkingInOrder, Food, FoodCook, CookAbility, FoodOffer, \
+    Warehouse, Material, MaterialInWarehouse, MaterialInFood, OrderDeliveryMan, OrderWaiter, MyUser
 
 
 def send_mail_to_users(modeladmin, request, queryset):
@@ -57,7 +58,7 @@ def check(modeladmin, request, queryset):
 check.short_description = "check emails"
 
 
-@admin.register(User)
+@admin.register(MyUser)
 class AdminUser(admin.ModelAdmin):
     actions = [send_mail_to_users, send_discount_code_to_users]
     pass
@@ -120,7 +121,7 @@ class AdminCommentEmp(admin.ModelAdmin):
 
 @admin.register(FoodType)
 class AdminFoodType(admin.ModelAdmin):
-    exclude = ('rate','recipe',)
+    exclude = ('rate', 'image')
     pass
 
 
@@ -157,16 +158,18 @@ class AdminTestModel(admin.ModelAdmin):
     actions = [check, uncheck]
     pass
 
+
 @admin.register(TasteType)
 class AdminTasteType(admin.ModelAdmin):
     pass
 
 
-
 @admin.register(FoodTypeTaste)
 class AdminFoodTypeTaste(admin.ModelAdmin):
-    exclude = ('recipe','rate',)
+    exclude = ('recipe', 'rate',)
     pass
+
+
 # admin.site.register(SingletonModel)
 
 @admin.register(Order)
@@ -191,4 +194,54 @@ class AdminChairInOrder(admin.ModelAdmin):
 
 @admin.register(ParkingInOrder)
 class AdminParkingInOrder(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Food)
+class AdminFood(admin.ModelAdmin):
+    pass
+
+
+@admin.register(FoodCook)
+class AdminFoodCook(admin.ModelAdmin):
+    pass
+
+
+@admin.register(CookAbility)
+class AdminCookAbility(admin.ModelAdmin):
+    pass
+
+
+@admin.register(FoodOffer)
+class AdminFoodOffer(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Warehouse)
+class AdminWareHouse(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Material)
+class AdminMaterial(admin.ModelAdmin):
+    pass
+
+
+@admin.register(MaterialInWarehouse)
+class AdminMaterialInWarehouse(admin.ModelAdmin):
+    pass
+
+
+@admin.register(MaterialInFood)
+class AdminMaterialInFood(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrderDeliveryMan)
+class AdminOrderDelivery(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OrderWaiter)
+class AdminOrderWaiter(admin.ModelAdmin):
     pass

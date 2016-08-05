@@ -1,0 +1,169 @@
+div.head_buttons{
+
+    width : 100%;
+    /*height: 50%;*/
+    top : 0;
+    bottom : 0;
+    right : 0;
+    top:0;
+
+    margin: auto;
+    text-align: center;
+    /*background-color: #6ab344;*/
+
+}
+
+.link{
+    background-color: #7cb342;
+    /*font-family: "Comic Sans MS"*/
+    font-size: 24px;
+
+}
+
+.link_for_task {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #00bfa5;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 24px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.link_for_task :hover{
+    /*background-color: #2196F3;*/
+}
+
+.link_for_task span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+    /*background-color: #2196F3;*/
+}
+
+.link_for_task span:after {
+  /*content: '»';*/
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+    /*background-color: #00bfa5;*/
+  transition: 0.5s;
+    /*background-color: #2196F3;*/
+}
+
+.link_for_task:hover span {
+  padding-right: 25px;
+    /*background-color: #00bfa5;*/
+    /*background-color: #2196F3;*/
+}
+
+.link_for_task:hover span:after {
+  opacity: 1;
+  right: 0;
+    background-color: #2196F3;
+}
+
+button.link_for_task:hover{
+    background-color: coral;
+}
+
+div.my_form {
+    width: 40%;
+    height: 50%;
+    /*background-color: red;*/
+    /*position: absolute;*/
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    direction: rtl;
+    padding: 10px;
+    margin: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    border:  dotted coral;
+    /*margin: auto;*/
+
+}
+
+.guide{
+    direction: rtl;
+    width:  50%;
+     top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    /*color: cornflowerblue;*/
+    font-size: 18px;
+}
+
+.form_title{
+     direction: rtl;
+    width:40%;
+     top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    color: cornflowerblue;
+    font-size: 30px;
+
+}
+
+button.btn{
+    text-align: center;
+    direction: rtl;
+    margin: auto;
+    /*background-color:chocolate;*/
+}
+
+button.btn:hover{
+    background-color: coral;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    direction: rtl;
+    /*background-color: #4CAF50;*/
+}
+
+/*th, td {*/
+    /*text-align: left;*/
+    /*padding: 8px;*/
+/*}*/
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: coral;
+    color: white;
+}
+
+.guide2{
+    direction: rtl;
+    margin: auto;
+    font-size: 24px;
+}
+
+
+button.center_button{
+    text-align: center;
+    margin: auto;
+    top : 0;
+    bottom : 0;
+    right : 0;
+}
+
+#selected{
+    background-color:coral;
+}

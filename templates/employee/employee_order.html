@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Clerk Order</title>
+     <link rel="stylesheet" href={% static "employee/base_employee.css" %}>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+
+         $(document).ready(function () {
+           $ ('#add_food').click(function () {
+
+            var inputs = $('form :input');
+            var food = $ ('#food').val()
+            console.log("thid" + food)
+            var val = $ ('#num').val()
+            inputs.each(function () {
+                 console.log(this.name)
+                if ( this.name == food ) {
+                    x = $(this).val()
+                    $(this).val( val)
+
+                }
+            })
+               show = $('#show').val()
+               if (val != '' && val != 0)
+                if (show != 1){
+                   $('#food_table').append('<tr> <th> غذا </th> <th> تعداد </th> </tr>' )
+                   $('#food_table').append('<tr> <td>' + food+ '</td> <td> '+( val==0 ? 0 : val )+  '</td> </tr>' )
+                   $ ('#show').val(1)
+                }
+                else{
+                   $('#food_table').append('<tr> <td>' + food+ '</td> <td> '+( val==0 ? 0 : val)+ '</td> </tr>' )
+                }
+
+        })
+        });
+
+    </script>
+</head>
+
+<body>
+
+<div class = "head_buttons" >
+
+    <a href="http://127.0.0.1:8081/clerk/ordering" >
+         <button   id = "selected" class="link_for_task" style="vertical-align:middle"> <span> ثبت سفارش</span></button>
+    </a>
+    <a href="http://127.0.0.1:8081/employee/authentication/check">
+        <button class="link_for_task"style="vertical-align:middle"><span> پیگیری سفارش </span></button>
+    </a>
+
+</div>
+
+
+{% load staticfiles %}
+{% include 'material/includes/material_css.html' %}
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+{% include 'material/includes/material_js.html' %}
+{% load material_form %}
+
+
+<form action="/clerk/ordering" method="POST">
+    {% csrf_token %}
+    {% form form=form %}
+    {% endform %}
+<div class="my_form">
+     <select id="food">
+        {% for option in foods %}
+            <option value='{{ option.name }}'> {{ option.name }}</option>
+        {% endfor %}
+    </select>
+    تعداد :  <input type="number" name="number" id="num">
+
+    {% for item in foods %}
+         <input type="hidden" name="{{ item.name }}" >
+    {% endfor %}
+
+    <input type="hidden" id="show">
+    <button type="button" name="add_food" class="btn" id="add_food"> اضافه </button>
+</div>
+
+<div class="my_form">
+    <table id = "food_table"></table>
+</div>
+
+<div class="my_form">
+    <button type="submit" name="_submit" class="btn"> ثبت سفارش </button>
+</div>
+
+</form>
+
+
+
+</body>
+</html>

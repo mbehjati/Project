@@ -1,0 +1,70 @@
+div.head_buttons{
+
+    width : 100%;
+    top : 0;
+    bottom : 0;
+    right : 0;
+    top:0;
+
+    margin: auto;
+    text-align: center;
+    /*background-color: #6ab344;*/
+
+}
+
+.link{
+    background-color: #7cb342;
+    /*font-family: "Comic Sans MS"*/
+    font-size: 24px;
+
+}
+
+.link_for_task {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #00bfa5;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 24px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.link_for_task :hover{
+    /*background-color: #2196F3;*/
+}
+
+.link_for_task span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+    /*background-color: #2196F3;*/
+}
+
+.link_for_task span:after {
+  /*content: '»';*/
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+    /*background-color: #00bfa5;*/
+  transition: 0.5s;
+    /*background-color: #2196F3;*/
+}
+
+.link_for_task:hover span {
+  padding-right: 25px;
+    /*background-color: #00bfa5;*/
+    /*background-color: #2196F3;*/
+}
+
+.link_for_task:hover span:after {
+  opacity: 1;
+  right: 0;
+    background-color: #2196F3;
+}

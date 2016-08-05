@@ -11,10 +11,15 @@
 
 <div class = "head_buttons" >
 
-    <a href="http://127.0.0.1:8081/employee/authentication/check">
-         <button class="link_for_task"style="vertical-align:middle"><span>پیگیری سفارش</span></button>
+    <a href="http://127.0.0.1:8081/deliveryman/dutyList" >
+         <button   class="link_for_task" style="vertical-align:middle"> <span>لیست وظایف  </span></button>
     </a>
+    <a href="http://127.0.0.1:8081/deliveryman/authentication">
+        <button id = "selected" class="link_for_task"style="vertical-align:middle"><span> پیگیری سفارش </span></button>
+    </a>
+
 </div>
+
 
 {% load staticfiles %}
 {% include 'material/includes/material_css.html' %}
@@ -27,7 +32,7 @@
 
 {% load material_form %}
 <div class="my_form">
-    <form action="/employee/authentication/check" method="POST">
+    <form action="/clerk/authentication" method="POST">
     {% csrf_token %}
     {% form form=form %}
 {#        {% part form.my_field %}salam{% endpart %}#}

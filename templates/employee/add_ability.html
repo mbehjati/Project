@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Ability</title>
+    <link rel="stylesheet" href={% static "employee/base_employee.css" %}>
+</head>
+
+
+<body>
+
+<div class = "head_buttons" >
+
+    <a href="http://127.0.0.1:8081/cook/dutyList">
+         <button class="link_for_task"style="vertical-align:middle"><span>لیست وظایف</span></button>
+    </a>
+    <a href="http://127.0.0.1:8081/cook/setRecipe">
+        <button class="link_for_task"style="vertical-align:middle"><span> دستور پخت </span></button>
+    </a>
+    <a href="http://127.0.0.1:8081/cook/addAbility">
+        <button id = "selected" class="link_for_task"style="vertical-align:middle"><span>افزودن توانایی </span></button>
+    </a>
+    <a href="http://127.0.0.1:8081/cook/setOffer">
+         <button class="link_for_task"style="vertical-align:middle"><span>پیشنهادها </span></button>
+    </a>
+</div>
+
+
+{% load staticfiles %}
+{% include 'material/includes/material_css.html' %}
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+{% include 'material/includes/material_js.html' %}
+
+<div class ='guide'>
+     آشپز محترم،
+    <br>
+    لطفا توانایی مورد نظر خود در پخت غذا را به همراه تعداد آن وارد نمایید.
+</div>
+
+{% load material_form %}
+<div class="my_form">
+    <form action="/cook/addAbility" method="POST">
+    {% csrf_token %}
+    {% form form=form %}
+{#        {% part form.my_field %}salam{% endpart %}#}
+{#         {% part form.foods prefix %}<div class="input-group-addon">@</div>{% endpart %}#}
+    {% endform %}
+    <button type="submit" name="_submit" class="btn">اضافه شدن به توانایی‌ها</button>
+</form>
+</div>
+
+
+{#<form action="/cook/addAbility" method="post">#}
+{#    {% csrf_token %}#}
+{##}
+{#    {{ form }}#}
+{#    <input type="submit" value="Submit" />#}
+{#    </form>#}
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Set Recipe</title>
+    <link rel="stylesheet" href={% static "employee/base_employee.css" %}>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+           $ ('#add_material').click(function () {
+            console.log('salam')
+           var inputs = $('form :input');
+            var material = $ ('#material').val()
+            var val = $ ('#material_value').val()
+            console.log(material +" " +val)
+            inputs.each(function () {
+                console.log(this.name)
+                if ( this.name == material){
+                    $(this).val(val)
+                }
+            })
+               show = $('#show_material').val()
+               if (val != '' && val != 0)
+                if (show != 1){
+                   $('#material_table').append('<tr> <th> ماده‌ی اولیه</th> <th> میزان </th> </tr>' )
+                   $('#material_table').append('<tr> <td>' + material+ '</td> <td> '+( val==0 ? 0 : val )+ 'گرم ' + '</td> </tr>' )
+                   $ ('#show_material').val(1)
+                }
+                else{
+                   $('#material_table').append('<tr> <td>' + material+ '</td> <td> '+( val==0 ? 0 : val)+ 'گرم ' + '</td> </tr>' )
+                }
+
+        })
+        });
+
+    </script>
+</head>
+<body>
+
+
+<div class = "head_buttons" >
+
+    <a href="http://127.0.0.1:8081/cook/dutyList" >
+         <button  class="link_for_task"style="vertical-align:middle"><span>لیست وظایف</span></button>
+    </a>
+    <a href="http://127.0.0.1:8081/cook/setRecipe">
+        <button id = "selected" class="link_for_task"style="vertical-align:middle"><span> دستور پخت </span></button>
+    </a>
+    <a href="http://127.0.0.1:8081/cook/addAbility">
+        <button class="link_for_task"style="vertical-align:middle"><span>افزودن توانایی </span></button>
+    </a>
+    <a href="http://127.0.0.1:8081/cook/setOffer">
+         <button class="link_for_task"style="vertical-align:middle"><span>پیشنهادها </span></button>
+    </a>
+</div>
+
+
+{% load staticfiles %}
+{% include 'material/includes/material_css.html' %}
+<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+{% include 'material/includes/material_js.html' %}
+
+<div class ='guide'>
+     آشپز محترم،
+    <br>
+    لطفا مواد اولیه به همراه  دستور پخت غذای مورد نظر را وارد کنید.
+</div>
+
+{% load material_form %}
+
+    <form action="/cook/setRecipe" method="POST">
+
+    <div class="my_form">
+          <select id="food" name="food">
+        {% for option in foods  %}
+            <option value='{{ option.name }}'> {{ option.name }}</option>
+        {% endfor %}
+        </select>
+    </div>
+
+
+
+    <div class="my_form">
+        <select id="material">
+        {% for option in materials  %}
+            <option value='{{ option.name }}'> {{ option.name }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="number" id = "material_value">
+
+    {% for food in materials %}
+        <input type="hidden" name={{ food.name }}>
+    {% endfor %}
+
+    <input type="hidden" id="show_material" >
+    <button type="button" name="add_material" id="add_material" class="btn"> اضافه کردن ماده اولیه</button>
+
+    </div>
+
+    <div class="my_form">
+{#    {% if   %} {% endif %}#}
+    <div class="guide2">
+
+    مواد اولیه مورد نیاز :
+   <br>
+    </div>
+
+<table id="material_table">
+
+{# <tr>#}
+{#     <th> ماده‌ی اولیه</th>#}
+{#     <th> میزان </th>#}
+{# </tr>#}
+
+</table >
+</div>
+    <div class="my_form">
+         {% csrf_token %}
+    {% form form=form %}
+
+    {% endform %}
+ <button type="submit" name="_submit" class="btn" id="center_button">ثبت نهایی دستور پخت</button>
+
+    </div>
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+</body>
+</html>
