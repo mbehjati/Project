@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.contrib.auth.views import password_reset, password_reset_confirm
 
+
 def reset_confirm(request, uidb36=None, token=None):
     return password_reset_confirm(request, template_name='user/password_reset_confirm.html',
                                   uidb36=uidb36, token=token, post_reset_redirect=reverse('user/login.html'))
@@ -329,24 +330,25 @@ def logout(request):
     django_logout(request)
     return redirect('/restaurant/')
 
+
 @csrf_exempt
 def costumer(request):
     orders = Order.objects.filter(is_done=False)
     done = Order.objects.filter(is_done=True)
-    prices=[]
+    prices = []
     for ord in orders:
         prices.append((ord, calculate_price(ord)))
 
-    pricep=[]
+    pricep = []
     for past in done:
         pricep((past, calculate_price(past)))
 
     if (request.method == 'POST'):
         print(request.POST['name'])
-        #TODO: check
-        get_object_or_404(Order,pk= request.POST['name']).delete()
+        # TODO: check
+        get_object_or_404(Order, pk=request.POST['name']).delete()
         return HttpResponse('successfully deleted')
-    return render(request, 'user/costumer_order.html', {'orders':prices , 'done':pricep})
+    return render(request, 'user/costumer_order.html', {'orders': prices, 'done': pricep})
 
 
 def order_detail(request, order_id):
@@ -357,16 +359,27 @@ def order_detail(request, order_id):
         foodt = get_object_or_404(FoodType, pk=food.food_type)
         order_food.append((foodt, food.number, foodt.price * food.number))
 
-    #TODO : show total price if you had time
-    if(request.method == 'POST'):
+    # TODO : show total price if you had time
+    if (request.method == 'POST'):
         result = request.POST
-        discount = result['discount']
+        if result['discount'] == '':
+            discount = 0
+        else:
+            discount = result['discount']
+
         has_child = result['has_child']
         place = result['options']
-        chair = result['chair']
-        parking = result['parking']
-        confirm_order(requested_order , discount, has_child, place , chair, parking)
-        #TODO: redirect to orders page!
+        if result['chair'] == '':
+            chair = 0
+        else:
+            chair = int(result['chair'])
+        if result['parking'] == '':
+            parking = 0
+        else:
+            parking = int(result['parking'] )
+        confirm_order(requested_order, discount, has_child, place, chair, parking)
+        return redirect('/user/orders')
+        # TODO: redirect to orders page!
     return render(request, 'user/order_detail.html', {'order': requested_order, 'order_food': order_food})
 
 
@@ -396,31 +409,30 @@ def comment(request, order_id):
         for waiter in waiters:
             if not result[waiter + "-comment"] == "":
                 new_comment = CommentEmp(text=result[food + "-comment"],
-                                      state=False,
-                                      date=datetime.now(),
-                                      user=myuser,
-                                      employee=waiter)
+                                         state=False,
+                                         date=datetime.now(),
+                                         user=myuser,
+                                         employee=waiter)
                 new_comment.save()
-            #     TODO: sare kari nabash
-            # if not result[waiter + "-rate"] == "":
-            #     len = Comment.objects.filter(food=food).__len__()
-            #     rate = FoodType.objects.filter(pk=food)[0].rate
-            #     rate = (rate * (len - 1) + int(result[food + "-rate"])) / len;
+                #     TODO: sare kari nabash
+                # if not result[waiter + "-rate"] == "":
+                #     len = Comment.objects.filter(food=food).__len__()
+                #     rate = FoodType.objects.filter(pk=food)[0].rate
+                #     rate = (rate * (len - 1) + int(result[food + "-rate"])) / len;
         for deli in delivery:
             if not result[deli + "-comment"] == "":
                 new_comment = CommentEmp(text=result[deli + "-comment"],
-                                      state=False,
-                                      date=datetime.now(),
-                                      user=myuser,
-                                      employee=deli)
+                                         state=False,
+                                         date=datetime.now(),
+                                         user=myuser,
+                                         employee=deli)
                 new_comment.save()
-            # if not result[food + "-rate"] == "":
-            #     len = Comment.objects.filter(food=food).__len__()
-            #     rate = FoodType.objects.filter(pk=food)[0].rate
-            #     rate = (rate * (len - 1) + int(result[food + "-rate"])) / len;
+                # if not result[food + "-rate"] == "":
+                #     len = Comment.objects.filter(food=food).__len__()
+                #     rate = FoodType.objects.filter(pk=food)[0].rate
+                #     rate = (rate * (len - 1) + int(result[food + "-rate"])) / len;
         # TODO: redirect
         return HttpResponse("ثبت شد")
 
     return render(request, 'user/order_comment.html',
                   {'order': requested_order, 'foods': foods, 'delivery': delivery, 'waiters': waiters})
-

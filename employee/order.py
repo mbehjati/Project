@@ -95,7 +95,7 @@ def submit_order_customer(user, branch, date, time, dic):
     order.save()
 
     for food, val in dic:
-        food = Food(food_type=FoodType.objects.get(name=food), order=order, number=val, status=False)
+        food = Food(food_type=food, order=order, number=val, status=False)
         food.save()
 
 
@@ -164,11 +164,15 @@ def food_suggest():
                 ordered_food.append(f.food_type)
                 number +=1
 
+    result =[]
+
+    orf=ordered_food.values_list()
     return ordered_food
 
-
-def chef_suggest(request):
+def chef_suggest():
     ans = []
+    if not Cook.objects.all():
+        return ans
     for c in Cook.objects.all():
         number = 0
         chef_food = None

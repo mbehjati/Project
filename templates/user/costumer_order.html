@@ -67,7 +67,7 @@
                                     پرداخت‌نشده
                                 {% endif %}</td>
                                 <td>
-                                    <a href="/restaurant/costumer/{{ order.trackID }}"
+                                    <a href="/user/orders/{{ order.trackID }}"
                                        class="pay-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
                                         {% if  order.is_permanent %}
                                             مشاهده
@@ -116,7 +116,7 @@
                                 <td class="mdl-data-table__cell--non-numeric">عادی</td>
                                 <td class="mdl-data-table__cell--non-numeric">{{ p }}</td>
                                 <td>
-                                    <a href="/restaurant/costumer/{{ order.trackID }}/comment/"
+                                    <a href="/user/orders/{{ order.trackID }}/comment/"
                                        class="pay-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
                                        مشاهده و ثبت نظر
                                     </a>

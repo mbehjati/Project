@@ -4,7 +4,7 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.forms import Form
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 # Create your views here.
@@ -178,24 +178,23 @@ def show_branch_menu(request, branch_id):
     if request.method == 'POST':
         # order = Order(is_changable=True, is_permanent=False, has_child=False, branch_id = branch_id, place=True, trackID=1)
         ord = Order()
-        food_dict = {}
+        food_dict = []
         for foodt in a:
             esm = foodt.name
-            number = request.POST[esm]
-            if(number > 0):
-                food_dict[foodt] = number
+            if not request.POST[esm]=="":
+                number = int(request.POST[esm])
+                food_dict.append((foodt,number))
 
         date = request.POST['date']
         time = request.POST['time']
         submit_order_customer(myuser, branch , date , time , food_dict)
-        # TODO: redirect to correct page
-        return HttpResponse("bia berim dasht")
+        return redirect('/user/orders')
     else:
         dic = []
         for foodo in menu:
             off = FoodOffer.objects.filter(food=foodo).values_list('offer', flat=True)
             dic.append((foodo, off))
         print(dic)
-    return render(request, 'restaurant/branchm.html', {'menu': a, 'branch_id': branch_id, 'dic': dic})
+    return render(request, 'restaurant/branchm.html', {'menu': a, 'branch_id': branch_id, 'dic': dic , 'recom':recom})
 
 

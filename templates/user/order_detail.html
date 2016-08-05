@@ -44,7 +44,8 @@
         {% if  not order.is_permanent %}
             <h4>اطلاعات تکمیلی</h4>
             <div class="order-details-extra">
-                <form style="text-align: right;direction: rtl" class="mdl-shadow--2dp">
+                <form style="text-align: right;direction: rtl" class="mdl-shadow--2dp" action="" method="post">
+                    {% csrf_token %}
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4"
                                name="discount">
@@ -53,13 +54,22 @@
                         <span class="mdl-textfield__error">عدد وارد شده صحیح نیست!</span>
                     </div>
                     <br>
-                    <label class="mycheck mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2"
-                    >
-                        <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" name="has_child"
-                        >
-                        <span class="mdl-checkbox__label">به همراه داشتن کودک خردسال</span>
-                    </label><br>
-                    <br>
+{#                    <input type="checkbox" name="sa" value="sal">#}
+{#                    <label class="mycheck mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2"#}
+{#                    >#}
+{#                        <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" name="has_child">#}
+{#                        <span class="mdl-checkbox__label">به همراه داشتن کودک خردسال</span>#}
+{#                    </label><br>#}
+                    <span style="font-size: medium">به همراه داشتن کودک خردسال</span>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-11" style="float: left">
+                        <span class="mdl-radio__label">بله</span>
+                        <input type="radio" id="option-11" class="mdl-radio__button" name="has_child" value="1" checked>
+                    </label>
+                    <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-22" style="float: left">
+                        <span class="mdl-radio__label">خیر</span>
+                        <input type="radio" id="option-22" class="mdl-radio__button" name="has_child" value="0">
+                    </label>
+                    <div style="height: 2vw;"></div>
                     <span style="font-size: medium">شیوه تحویل سفارش:    </span>
                     <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1" style="float: left">
                         <span class="mdl-radio__label">منزل</span>
@@ -78,7 +88,7 @@
                     </div>
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="parking"
-                               name=parking">
+                               name="parking">
                         <label class="mdl-textfield__label" for="parking" style="direction: rtl;text-align: right">تعداد
                             پارکینگ</label>
                         <span class="mdl-textfield__error">عدد وارد شده صحیح نیست!</span>

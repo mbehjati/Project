@@ -67,13 +67,14 @@ width: 24px;">
                 <div class="mdl-snackbar__text"></div>
                 <button class="mdl-snackbar__action" type="button"></button>
             </div>
-            <div class="branch-order-food-recom">
-                <h4 style="font-family: 'X Yekan'">احتمالا مایل به خرید غذاهای زیر هستید:</h4>
+            <div class="branch-order-food-recom" style="text-align: center">
+                <h4 style="font-family: 'X Yekan';text-align: right;">احتمالا مایل به خرید غذاهای زیر هستید:</h4>
+                {% include "restaurant/food_card.html" with menu=recom %}
             </div>
             <hr>
             <div class="branch-menu-page">
                 <h4 style="font-family: 'X Yekan';text-align: right;">منو رستوران:</h4>
-                {% include "restaurant/food_card.html" %}
+                {% include "restaurant/food_card.html" with menu=menu %}
             </div>
             <hr>
             <div id="order">
@@ -86,7 +87,7 @@ width: 24px;">
             <h4 style="font-family: 'X Yekan'">اطلاعات تکمیلی سفارش:</h4>
 
             <form action="" method="post">
-
+                {% csrf_token %}
                 {% for food in menu %}
                     <input type="hidden" name="{{ food.name }}">
                 {% endfor %}
