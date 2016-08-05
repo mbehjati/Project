@@ -1,0 +1,44 @@
+.order-comment-page{
+    background-color: lightyellow;
+    direction: rtl;
+    font-family: "X Yekan";
+    padding: 5%;
+    overflow: auto;
+}
+button , h4{
+    font-family: "X Yekan";
+}
+p , .order-comment-food{
+    font-size: large;
+}
+.order-comment-field{
+    /*float: left;*/
+    margin-right: 5%;
+    display: inline-block;
+
+}
+form{
+    /*overflow: auto;*/
+    /*width: 30vw;*/
+}
+.comment{
+        font-family: "X Yekan";
+}
+.comment-on-food{
+    margin-right: 2%;
+    /*height: 10vw;*/
+}
+.order-comment-food{
+    /*width:30vw;*/
+    /*overflow: auto;*/
+}
+.inp{
+    direction: rtl;
+    text-align: right;
+    font-family: "X Yekan";
+}
+.btn{
+    font-family: "X Yekan";
+    margin: 3%;
+    float: left;
+}

@@ -2,6 +2,7 @@
     background-color: lightyellow;
     direction: rtl;
     padding: 5%;
+    overflow: auto;
 }
 h4{
     font-family: "X Yekan";
@@ -11,4 +12,23 @@ h4{
     text-align: center;
         margin: auto;
 
+}
+p{
+    font-size: medium;
+}
+td{
+    font-size: small;
+}
+form{
+    background-color: white;
+    width: 20vw;
+    margin: auto;
+    padding: 3%;
+}
+.btn{
+    font-family: "X Yekan";
+    /*margin: 3%;*/
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-right: 35%;
 }

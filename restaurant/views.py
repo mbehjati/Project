@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.forms import Form
 from django.http import HttpResponseRedirect
@@ -15,7 +16,6 @@ from .models import *
 from django.shortcuts import get_object_or_404, render
 
 
-
 def index(request):
     return render(request, 'restaurant/home.html')
 
@@ -29,6 +29,7 @@ def menu(request):
     foods = FoodType.objects.all()
     return render(request, 'restaurant/menu.html', {'menu': foods})
 
+
 # def food(request, food_name):
 
 def food(request, food_name):
@@ -38,16 +39,18 @@ def food(request, food_name):
     # return HttpResponse('inja')
     return render(request, 'restaurant/food.html', {'food': food_type})
 
+
 from .forms import NameForm, SearchForm
 from restaurant.models import FoodType
 from .forms import NameForm, SearchForm
+
 
 def order(request):
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = OrderForm(request.POST)
-        salam = request.POST.get('branch','')
+        salam = request.POST.get('branch', '')
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -151,7 +154,8 @@ def search(request):
 
     return render(request, 'restaurant/search.html', {'form': form})
 
-def show_branch_menu(request , branch_id):
+
+def show_branch_menu(request, branch_id):
     branch = get_object_or_404(Branch, pk=branch_id)
     menu = branch.menu.foodinmenu_set.values_list('food_type', flat=True)
     a = []
@@ -163,27 +167,100 @@ def show_branch_menu(request , branch_id):
         ord = Order()
         for foodt in a:
             esm = foodt.name
-            fit = Food(food_type= foodt , order = ord , number=request.POST[esm])
+            fit = Food(food_type=foodt, order=ord, number=request.POST[esm])
             print(fit.number)
 
-
-        return  HttpResponse("bia berim dasht")
+        return HttpResponse("bia berim dasht")
     else:
         dic = []
-        for foodo in menu :
-            off = FoodOffer.objects.filter(food = foodo).values_list('offer',flat=True)
-            dic.append((foodo,off))
+        for foodo in menu:
+            off = FoodOffer.objects.filter(food=foodo).values_list('offer', flat=True)
+            dic.append((foodo, off))
         print(dic)
-    return render(request, 'restaurant/branchm.html' , {'menu':a , 'branch_id':branch_id ,'dic':dic})
+    return render(request, 'restaurant/branchm.html', {'menu': a, 'branch_id': branch_id, 'dic': dic})
 
 
-def alaki(request):
-    return HttpResponse("alaki")
-
-
+@csrf_exempt
 def costumer(request):
-    return render(request , 'restaurant/costumer_order.html')
+    orders = Order.objects.all()
+    if (request.method == 'POST'):
+        print('salam')
+        print(request.POST['name'])
+        return HttpResponse('successfully deleted')
+
+    return render(request, 'restaurant/costumer_order.html', {'orders': orders})
 
 
-def order_detail(request):
-    return render(request, 'restaurant/order_detail.html')
+def order_detail(request, order_id):
+    requested_order = get_object_or_404(Order, pk=order_id)
+    order_food = []
+    food_sets = Food.objects.filter(order_id=order_id)
+    for food in food_sets:
+        foodt = get_object_or_404(FoodType, pk=food.food_type)
+        order_food.append((foodt, food.number, foodt.price * food.number))
+
+        # = requested_order.food_set.values_list('food_type','number')
+    print(order_food)
+    return render(request, 'restaurant/order_detail.html', {'order': requested_order, 'order_food': order_food})
+
+
+def comment(request, order_id):
+    requested_order = get_object_or_404(Order, pk=order_id)
+    foods = requested_order.food_set.values_list('food_type', flat=True)
+    delivery = requested_order.orderdeliveryman_set.values_list('deliveryman', flat=True)
+    waiters = requested_order.orderwaiter_set.values_list('waiter', flat=True)
+    if (request.method == 'POST'):
+        result = request.POST
+        user = request.user.id
+        user_obj = User.objects.get(pk=user)
+        myuser = MyUser.objects.get(user=user_obj)
+        for food in foods:
+            if not result[food + "-comment"] == "":
+                new_comment = Comment(text=result[food + "-comment"],
+                                      state=False,
+                                      date=datetime.now(),
+                                      user=myuser,
+                                      food=food)
+                new_comment.save()
+            if not result[food + "-rate"] == "":
+                len = Comment.objects.filter(food=food).__len__()
+                rate = FoodType.objects.filter(pk=food)[0].rate
+                rate = (rate * (len - 1) + int(result[food + "-rate"])) / len;
+
+        for waiter in waiters:
+            if not result[waiter + "-comment"] == "":
+                new_comment = CommentEmp(text=result[food + "-comment"],
+                                      state=False,
+                                      date=datetime.now(),
+                                      user=myuser,
+                                      employee=waiter)
+                new_comment.save()
+            #     TODO: sare kari nabash
+            # if not result[waiter + "-rate"] == "":
+            #     len = Comment.objects.filter(food=food).__len__()
+            #     rate = FoodType.objects.filter(pk=food)[0].rate
+            #     rate = (rate * (len - 1) + int(result[food + "-rate"])) / len;
+        for deli in delivery:
+            if not result[deli + "-comment"] == "":
+                new_comment = CommentEmp(text=result[deli + "-comment"],
+                                      state=False,
+                                      date=datetime.now(),
+                                      user=myuser,
+                                      employee=deli)
+                new_comment.save()
+            # if not result[food + "-rate"] == "":
+            #     len = Comment.objects.filter(food=food).__len__()
+            #     rate = FoodType.objects.filter(pk=food)[0].rate
+            #     rate = (rate * (len - 1) + int(result[food + "-rate"])) / len;
+        # TODO: redirect
+        return HttpResponse("ثبت شد")
+
+    return render(request, 'restaurant/order_comment.html',
+                  {'order': requested_order, 'foods': foods, 'delivery': delivery, 'waiters': waiters})
+
+
+def profile(request):
+    # user = request.user.id
+    # user_obj = User.objects.get(pk=user)
+    # myuser = MyUser.objects.get(user=user_obj)
+    return render(request, 'restaurant/profile.html')

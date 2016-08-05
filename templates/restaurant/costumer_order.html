@@ -3,13 +3,29 @@
 
 {% block content %}
     <link rel="stylesheet" href="{% static "restaurant/costumer_order.css" %}">
+    <script src="{% static 'restaurant/jquery-3.1.0.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".cancel").click(function () {
+                {#                TODO: show confirmation dialog #}
+                var btn = $(this);
+                $.post("",
+                        {
+                            name: this.id
+                        },
+                        function (data, status) {
+                            btn.parent().parent().remove();
+                            {#                            alert("Data: " + data + "\nStatus: " + status);#}
 
+                        });
+            });
+        });
+    </script>
     <div class="costumer-order-page">
         <h5>سفارش‌های جاری</h5>
 
         <div class="costumer-order-recents">
 
-            {#            {% for order in recent_orders %}#}
             <div class="costumer-order-recents-info">
                 <div class="costumer-order-recents-basic">
 
@@ -20,56 +36,54 @@
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">کد</th>
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">تاریخ</th>
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">نوع</th>
+                                                            {# TODO: calculate price #}
+
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">مبلغ</th>
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">وضعیت</th>
-{#                            <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">پرداخت</th>#}
-                            <th class="mdl-data-table__cell--non-numeric" style="font-size: medium;text-align: center;"> جزئیات</th>
+                            {#                            <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">پرداخت</th>#}
+                            <th class="mdl-data-table__cell--non-numeric"
+                                style="font-size: medium;text-align: center;">جزئیات
+                            </th>
                         </tr>
                         </thead>
-
                         <tbody>
-                        <tr>
-                            <td><button class="mdl-button mdl-js-button mdl-button--colored"><i class="material-icons">cancel</i> </button> </td>
-                            <td class="mdl-data-table__cell--non-numeric">۱۲۳۴۵۶</td>
-                            <td class="mdl-data-table__cell--non-numeric">۲۴/۲/۹۲</td>
-                                                        <td>دوره‌ای</td>
+                        {% for order in orders %}
+                            <tr>
+                                <td>
+                                    <button class="cancel mdl-button mdl-js-button mdl-button--colored"
+                                            id="{{ order.trackID }}"><i
+                                            class="material-icons">cancel</i>
+                                    </button>
+                                </td>
+                                <td class="mdl-data-table__cell--non-numeric">{{ order.trackID }}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{ order.date }}</td>
+                                <td class="mdl-data-table__cell--non-numeric">عادی</td>
+                                <td class="mdl-data-table__cell--non-numeric">25000</td>
+                                <td>{% if  order.is_permanent %}
+                                    پرداخت‌شده
+                                {% else %}
+                                    پرداخت‌نشده
+                                {% endif %}</td>
+                                <td>
+                                    <a href="/restaurant/costumer/{{ order.trackID }}"
+                                       class="pay-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                                        {% if  order.is_permanent %}
+                                            مشاهده
+                                        {% else %}
+                                            مشاهده و پرداخت
+                                        {% endif %}
 
-                            <td class="mdl-data-table__cell--non-numeric">25000</td>
-                                                        <td>پرداخت شده</td>
+                                    </a>
+                                </td>
 
-{#                            <td>#}
-{#                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">پرداخت#}
-{#                                </button>#}
-{#                            </td>#}
-
-                            <td>
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">مشاهده و پرداخت
-                                </button>
-                            </td>
-
-                        </tr>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                     {#                        <button id="more-btn"><i class="material-icons"></i></button>#}
                     {#                        <label for="more-btn">بیشتر</label>#}
                 </div>
-                <div class="costumer-order-recents-more">
-{#                    <ul>#}
-{#                        <li>شعبه:</li>#}
-{#                        <li>:تاریخ و زمان دریافت</li>#}
-{#                    </ul>#}
-                    <div class="costumer-order-recents-more-btn">
-                        {#                            {% if not order.is_permanent %}#}
-                        {#                                <button class="">پرداخت</button>#}
-                        {#                            {% endif %}#}
-                        {#                            {% if not order.is_changable %}#}
-                        {#                                <button class="">لغو</button>#}
-                        {#                            {% endif %}#}
-                    </div>
-
-                </div>
             </div>
-            {#            {% endfor %}#}
 
         </div>
         <h5>سفارش‌های گذشته</h5>
@@ -78,22 +92,38 @@
 
             {#            {% for order in past_order %}#}
             <div class="costumer-order-past-info">
-                <div class="costumer-order-past-basic">
-                    {#                {{ order.trackID }}#}
-                    سفارش شماره
-                </div>
-                <div class="costumer-order-past-more">
-                    <ul>
-                        <li>شعبه:</li>
-                        <li>:تاریخ و زمان دریافت</li>
-                        <li>شیوه تحویل</li>
-                        <li>همراه داشتن کودک خردسال</li>
-                    </ul>
-                    <div class="costumer-order-past-more-btn">
-                        <button class="">ثبت نظر</button>
-                    </div>
 
-                </div>
+                    <table class="costumer-order-table mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">کد</th>
+                            <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">تاریخ</th>
+                            <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">نوع</th>
+                                                            {# TODO: calculate price #}
+                            <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">مبلغ</th>
+                            <th class="mdl-data-table__cell--non-numeric"
+                                style="font-size: medium;text-align: center;">جزییات
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">{{ order.trackID }}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{ order.date }}</td>
+                                <td class="mdl-data-table__cell--non-numeric">عادی</td>
+                                <td class="mdl-data-table__cell--non-numeric">25000</td>
+                                <td>
+                                    <a href="/restaurant/costumer/{{ order.trackID }}/comment/"
+                                       class="pay-btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+                                       مشاهده و ثبت نظر
+                                    </a>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
             </div>
             {#            {% endfor %}#}
         </div>

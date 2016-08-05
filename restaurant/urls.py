@@ -30,8 +30,10 @@ urlpatterns = [
     url(r'^menu', views.menu, name = 'menu'),
     url(r'^order', views.order, name = 'order'),
     url(r'^search', views.search, name='search'),
+    url(r'^costumer/(?P<order_id>[0-9]+)/comment', views.comment, name='comment'),
+    url(r'^costumer/(?P<order_id>[0-9]+)', views.order_detail, name='detail'),
     url(r'^costumer', views.costumer, name='costumer'),
-    url(r'^detail', views.order_detail, name='detail'),
+    url(r'^profile', views.profile, name='profile'),
 
 ]
 

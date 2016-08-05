@@ -1,6 +1,21 @@
-{% extends 'restaurant/restaurant_base.html'%}
+{% extends 'restaurant/restaurant_base.html' %}
 {% load staticfiles %}
 
 {% block content %}
+    <link rel="stylesheet" href="{% static "restaurant/profile.css" %}">
 
+    <div class="user-profile">
+        <div class="user-profile-pic">
+            <img src="{% static 'restaurant/images/woman9.jpg' %}">
+            <span></span>
+        </div>
+        <div class="user-profile-info">
+            <div class="order-comment-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="inp mdl-textfield__input" type="text" id="inp" name="harch">
+                <label class="mdl-textfield__label" for="inp"
+                       style="direction: rtl;text-align: right">نظر
+                    شما</label>
+            </div>
+        </div>
+    </div>
 {% endblock %}

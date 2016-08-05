@@ -1,5 +1,5 @@
 .costumer-order-page{
-    /*background-image: url("images/newbg.jpg") ;*/
+    /*background-image: url("images/bg.jpg") ;*/
     /*background-repeat: repeat;*/
     /*!*background-size: contain;*!*/
     /*background-clip:padding-box;*/
@@ -49,7 +49,7 @@ th, td{
     /*direction: rtl;*/
     /*margin: 4vw;*/
 }
-.costumer-order-table button{
+.costumer-order-table a{
     font-family: "X Yekan";
 }
 /*.costumer-order-past{*/

@@ -121,7 +121,7 @@ class AdminCommentEmp(admin.ModelAdmin):
 
 @admin.register(FoodType)
 class AdminFoodType(admin.ModelAdmin):
-    exclude = ( 'image',)
+    # exclude = ('rate',)
     pass
 
 

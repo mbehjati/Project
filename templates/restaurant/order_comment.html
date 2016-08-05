@@ -1,0 +1,99 @@
+{% extends 'restaurant/restaurant_base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static "restaurant/order_comment.css" %}">
+    {#    <script src="{% static 'restaurant/jquery-3.1.0.js' %}"></script>#}
+    {#    <script type="text/javascript">#}
+    {#        $(document).ready(function () {#}
+    {#            $(".comment").click(function () {#}
+    {#                                TODO: show confirmation dialog#}
+    {#                var btn = $(this);#}
+    {#                $.post("",#}
+    {#                        {#}
+    {#                            name: this.id#}
+    {#                        },#}
+    {#                        function (data, status) {#}
+    {#                            btn.parent().parent().remove();#}
+    {#                                                        alert("Data: " + data + "\nStatus: " + status);#}
+    {##}
+    {#                        });#}
+    {#            });#}
+    {#        });#}
+    {#    </script>#}
+    <div class="order-comment-page">
+    <hr>
+        <h4>سفارش {{ order.trackID }}</h4>
+    <hr>
+        <p>
+            شعبه:
+            {{ order.branch_id }}
+        </p>
+        <p>
+
+            تاریخ:
+            {{ order.date }}
+        </p>
+        <p>
+
+            ساعت:
+            {{ order.time }}
+        </p>
+    <hr>
+    <h4>نظر و امتیازدهی</h4>
+    <hr>
+        <form action="" method="post">
+        {% csrf_token %}
+            {% for food in foods %}
+                <div class="order-comment-food">
+                    <span>{{ food }}:</span><br>
+                    <div class="comment-on-food">
+                        {#                <div class="mdl-layout-spacer"></div>#}
+                        <div class="order-comment-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="inp mdl-textfield__input" type="text" id="{{ food }}-inp" name="{{ food }}-comment">
+                            <label class="mdl-textfield__label" for="{{ food }}-inp"
+                                   style="direction: rtl;text-align: right">نظر
+                                شما</label>
+                        </div>
+                        <div class="order-comment-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="inp mdl-textfield__input" type="text" pattern="[0-9]" id="{{ food }}-inp" name="{{ food }}-rate">
+                            <label class="mdl-textfield__label" for="{{ food }}-inp"
+                                   style="direction: rtl;text-align: right">امتیاز (۱ تا ۱۰)</label>
+                              <span class="mdl-textfield__error">عدد بین ۱ تا ۱۰ وارد نمایید.</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            {% endfor %}
+        {# TODO do sth for here #}
+            {% for waiter in waiters %}
+                <div class="order-comment-food">
+                    <span>{{ waiter.employee.user.first_name }}</span>
+                    {#                <div class="mdl-layout-spacer"></div>#}
+                    <div class="order-comment-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="inp mdl-textfield__input" type="text" id="{{ food }}-inp" name="{{ food }}">
+                        <label class="mdl-textfield__label" for="{{ food }}-inp"
+                               style="direction: rtl;text-align: right">نظر
+                            شما</label>
+                    </div>
+                </div>
+            {% endfor %}
+            {% for del in delivery %}
+                <div class="order-comment-food">
+                    <span>{{ del.name }}</span>
+                    {#                <div class="mdl-layout-spacer"></div>#}
+                    <div class="order-comment-field mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="inp mdl-textfield__input" type="text" id="{{ food }}-inp" name="{{ food }}">
+                        <label class="mdl-textfield__label" for="{{ food }}-inp"
+                               style="direction: rtl;text-align: right">نظر
+                            شما</label>
+                    </div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn mdl-button mdl-js-button mdl-button--raised mdl-button--colored">ثبت
+            </button>
+        </form>
+    </div>
+{% endblock %}
