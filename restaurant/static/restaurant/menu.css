@@ -1,0 +1,23 @@
+.restaurant-menu-page{
+    background-color: lemonchiffon;
+    background-size: cover;
+    text-align: center;
+    direction: rtl;
+}
+.restaurant-food-card{
+    direction: rtl;
+    width: 20%;
+    height: auto;
+    margin : 3%;
+    display: inline-block;
+}
+
+.restaurant-food-card-media img{
+    width: 100%;
+    height : 15vw;
+    object-fit: cover;
+}
+
+.restaurant-food-card-btn{
+    font-family: "X Yekan";
+}

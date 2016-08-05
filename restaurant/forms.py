@@ -1,12 +1,15 @@
 from django import forms
-from .models import TasteType, Menu
+from django.forms import ModelForm
+from material import  *
+from .models import *
 
 
 class NameForm(forms.Form):
     your_name = forms.CharField(label='Your name', max_length=100)
 
 
-class SearchForm(forms.Form):
+class SearchForm( forms.Form):
+    # layout = Layout(Row('name'))
     CHOICES = (('1', 'First',), ('2', 'Second',))
     one_to_ten = ()
 
@@ -23,10 +26,23 @@ class SearchForm(forms.Form):
     for t in all_types:
         types += ((t, t.name),)
 
-    name = forms.CharField(max_length=50 , required=False)
-    type = forms.ChoiceField(label='type', widget=forms.Select, choices=types , required=False)
-    score_from = forms.ChoiceField(widget=forms.Select, choices=one_to_ten , required=False)
-    score_to = forms.ChoiceField(widget=forms.Select, choices=one_to_ten , required=False)
-    taste = forms.ChoiceField(label='taste', widget=forms.Select, choices=tastes , required=False)
-    price_from = forms.IntegerField(required=False)
-    price_to = forms.IntegerField(required=False)
+    name = forms.CharField(max_length=50 , required=False,label='اسم')
+    type = forms.ChoiceField( widget=forms.Select, choices=types , required=False,label='نوع')
+    score_from = forms.ChoiceField(widget=forms.Select, choices=one_to_ten , required=False ,label='امتیاز از')
+    score_to = forms.ChoiceField(widget=forms.Select, choices=one_to_ten , required=False,label='امتیاز تا')
+    taste = forms.ChoiceField(widget=forms.Select, choices=tastes , required=False,label='طعم')
+    price_from = forms.IntegerField(required=False, label='قیمت از')
+    price_to = forms.IntegerField(required=False,label='قیمت تا')
+
+    layout = Layout('name', Row('taste','type'),Row('score_to','score_from'),Row('price_to','price_from'))
+
+
+
+class OrderForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = [  'branch','place']
+        widgets={'place':forms.RadioSelect}
+        labels = {
+            'place': 'شیوه تحویل'
+        }

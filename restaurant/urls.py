@@ -20,12 +20,18 @@ from django.contrib.staticfiles.urls import static
 from Project import settings
 from . import views
 
+app_name = 'restaurant'
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$' , views.index , name = 'index'),
+    url(r'^branch/(?P<branch_id>[0-9]+)/$', views.show_branch_menu, name='branch menu'),
     url(r'^branch', views.branch, name='branch'),
+    url(r'^menu/(?P<food_name>.+)/', views.food, name='food'),  # TODO: fix the url some way!
     url(r'^menu', views.menu, name = 'menu'),
-    # url(r'^menu/(?P<food_name>w+)', views.food, name = 'food')
+    url(r'^order', views.order, name = 'order'),
+    url(r'^search', views.search, name='search'),
+    url(r'^costumer', views.costumer, name='costumer'),
+    url(r'^detail', views.order_detail, name='detail'),
 
 ]
 

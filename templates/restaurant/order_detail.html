@@ -1,0 +1,67 @@
+{% extends 'restaurant/restaurant_base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'restaurant/order_detail.css' %}">
+    <div class="order-details-page">
+        <h4>سفارش ۱۲۳۵۵</h4>
+        <p>
+            شعبه: قیطریه
+ </p><p>
+            تاریخ:
+       </p>  <p>
+            ساعت:
+        </p>
+        <div class="order-details-table">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">نام غذا</th>
+                    <th>مبلغ واحد</th>
+                    <th>تعداد</th>
+                    <th>مبلغ کل</th>
+                </thead>
+                </tr>
+                <tbody>
+                <tr>
+                    <td>عدس پلو</td>
+                    <td>2</td>
+                    <td>12000</td>
+                    <td>24000</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div class="order-details-extra" >
+            <form style="text-align: right;direction: rtl">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
+                    <label class="mdl-textfield__label" for="sample4" style="direction: rtl;text-align: right">کد
+                        تخفیف</label>
+                    <span class="mdl-textfield__error">عدد وارد شده صحیح نیست!</span>
+                </div>
+                <br>
+                <label class="mycheck mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2"
+                >
+                    <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" name="has_child"
+                    >
+                    <span class="mdl-checkbox__label">به همراه داشتن کودک خردسال</span>
+                </label><br>
+                <br>
+                <span style="font-size: medium">شیوه تحویل سفارش:    </span>
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                    <span class="mdl-radio__label">منزل</span>
+                    <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+                </label>
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                    <span class="mdl-radio__label">حضوری</span>
+                    <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+                </label><br>
+                <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">پرداخت
+                </button>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

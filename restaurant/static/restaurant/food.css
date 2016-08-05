@@ -1,0 +1,40 @@
+.restaurant-food-detail{
+    direction: rtl;
+    padding: 3%;
+    background-image: url('images/junk-light.jpeg');
+}
+
+.restaurant-food-detail-info{
+    padding: 4%;
+    background-color: rgba(245, 245, 245, 0.9);
+    overflow: auto;
+    margin-bottom: 2%;
+}
+.restaurant-food-detail-text{
+    width:100%;
+    text-align: justify;
+    text-justify: inter-word;
+}
+.restaurant-food-detail-info img{
+    float: right;
+    border: solid 2px black;
+    width: 22vw;
+    height: 15vw;
+    object-fit: cover;
+    margin-left: 2%;
+}
+
+.restaurant-food-detail-comments{
+ padding: 4%;
+    background-color: rgba(245, 245, 245, 0.9);
+    overflow: auto;}
+
+.restaurant-food-detail-comments-single{
+    background-color: #fafafa;
+    padding: 2%;
+
+}
+
+.list li{
+    margin: 1%;
+}

@@ -1,0 +1,131 @@
+body {
+    margin: 0;
+    font-family: "X Yekan";
+}
+
+/* Disable ugly boxes around images in IE10 */
+a img {
+    border: 0px;
+}
+
+.android-header {
+    overflow: visible;
+    background-color: white;
+}
+
+.android-header .mdl-navigation__link {
+    color: #757575;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.android-navigation-container {
+    /* Simple hack to make the overflow happen to the left instead... */
+    direction: rtl;
+    -webkit-order: 1;
+    -ms-flex-order: 1;
+    order: 1;
+    width: 500px;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.android-navigation {
+    /* ... and now make sure the content is actually LTR */
+    direction: ltr;
+    -webkit-justify-content: flex-end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    width: 800px;
+}
+
+.android-navigation .mdl-navigation__link {
+    display: inline-block;
+    height: 60px;
+    line-height: 68px;
+    background-color: transparent !important;
+    border-bottom: 4px solid transparent;
+}
+
+.android-navigation .mdl-navigation__link:hover {
+    border-bottom: 4px solid crimson;
+}
+
+.android-header .material-icons {
+    color: #767777 !important;
+  }
+.android-footer {
+  position: relative;
+}
+
+.restaurant-main-picture{
+    background-image: url("images/junk-light.jpeg");
+    background-size: cover;
+    height: 400px;
+    width: 100%;
+}
+
+.restaurant-login-box{
+    margin-right: 1%;
+}
+
+.mdl-layout-title{
+    font-family: "X Yekan";
+    color: black;
+}
+.restaurant-drawer-header{
+    /*background-color: orange;*/
+    background-image: url("images/newbg.jpg");
+    background-size: cover;
+    height: 200px;
+    width: 100%;
+    padding: 2%;
+    text-align: center;
+    direction: rtl;
+}
+.restaurant-drawer-header img{
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    border : 0.2px solid #FFFDE7;
+    margin-top: 10%;
+    margin-bottom: 7%;
+}
+.restaurant-drawer-navigation{
+    text-align: right;
+    direction: rtl;
+}
+.restaurant-drawer-navigation i{
+    margin-left: 10%;
+}
+
+.restaurant-main-menu{
+    /*background-color: antiquewhite;*/
+    background-image: url("images/junk-light.jpeg");
+    width: 100%;
+    height: auto;
+    text-align: center;
+    background-size: cover;
+}
+.restaurant-main-menu-btn{
+    background-color: gold;
+    width: 15vw;
+    height: 15vw;
+    margin-top: 15%;
+    margin-left: 4%;
+    margin-right: 4%;
+    margin-bottom: 15%;
+}
+
+
+.restaurant-main-menu-btn:hover{
+    background-color: crimson;
+}
+
+
+
+.restaurant-footer{
+    /*direction: rtl;*/
+      position: relative;
+
+}

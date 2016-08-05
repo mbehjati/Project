@@ -1,0 +1,48 @@
+{% extends 'restaurant/restaurant_base.html' %}
+
+{% load staticfiles %}
+{% block content %}
+    <link rel="stylesheet" href={% static "restaurant/food.css" %}>
+    <div class="restaurant-food-detail">
+        <div class="restaurant-food-detail-info">
+            <img src="{{ food.image.url }}">
+            <div class="restaurant-food-detail-text">
+                <h4 class="mdl-title" style="font-family: 'X Yekan'">{{ food.name }}</h4>
+                <br>
+                <p>
+{#                    TODO:fix this part#}
+                    مواد اولیه: پپرونی- پنیر پیتزا- قارچ- زیتون- پنیر- سس مخصوص
+                </p>
+                <p>
+                    دستور پخت: ابتدا سس را روی خمیر میزنیم. سپس پپرونی قارچ و زیتون را روی آن میچینیم. در نهایت پنیر
+                    را روی آن میپاشیم و نیم ساعت داخل فر قرار میدهیم.
+                </p>
+            </div>
+        </div>
+        <div class="restaurant-food-detail-comments">
+            <ul class="list mdl-list">
+                <li>
+                    <div class="restaurant-food-detail-comments-single">
+                        <p>
+                            به نظر من خیلی خوشمزه اس!!!
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div class="restaurant-food-detail-comments-single">
+                        <p>
+                            به نظر من خیلی خوشمزه اس!!!
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div class="restaurant-food-detail-comments-single">
+                        <p>
+                            به نظر من خیلی خوشمزه اس!!!
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

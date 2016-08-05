@@ -1,0 +1,83 @@
+.branch-order-container{
+    direction: rtl;
+}
+.branch-order-page{
+    background-color: #FFFDE7;
+    direction: rtl;
+        padding: 2%;
+
+}
+.branch-menu-page{
+    /*background-color: lemonchiffon;*/
+    /*background-size: cover;*/
+    text-align: center;
+    direction: rtl;
+    overflow: auto;
+    /*float: right;*/
+}
+.branch-food-card{
+    direction: rtl;
+    width: 20%;
+    height: auto;
+    margin : 1%;
+    display: inline-block;
+}
+
+.branch-food-card-media img{
+    width: 100%;
+    height :15vw;
+    object-fit: cover;
+    /*TODO: same size for all images */
+    /*clip: rect(0,2vw,10vw,0);*/
+    /*position: absolute;*/
+}
+
+.branch-food-card-btn{
+    font-family: "X Yekan";
+}
+
+/*.sidebar{*/
+    /*background-color: wheat;*/
+    /*width: 20%;*/
+    /*min-height: 100vh;*/
+    /*float: left;*/
+    /*!*position: absolute;*!*/
+    /*!*top: 0;*!*/
+    /*!*left:0;*!*/
+/*}*/
+
+form{
+    direction: rtl;
+    text-align: right;
+    display: block;
+    padding: 2%;
+}
+form input{
+    margin-top:1vw;
+    margin-bottom: 1vw;
+}
+.mdl-radio{
+    margin-top: 1vw;
+    margin-bottom: 1vw;
+}
+.mdl-checkbox {
+    width: 20%;
+    display: inline-block;
+    float: right;
+}
+
+#submit_btn{
+    font-family: "X Yekan";
+    color: #F44336;
+    margin-right: 50%;
+    margin-bottom: 5%;
+}
+#list{
+    width: 50%;
+}
+#list li{
+    font-family: "X Yekan";
+}
+#list li span{
+    display: inline-block;
+}

@@ -1,22 +1,27 @@
 {% extends 'restaurant/restaurant_base.html' %}
-
+{% load staticfiles %}
 {% block content %}
 
+    <link rel="stylesheet" href={% static "restaurant/menu.css" %}>
     <div class="restaurant-menu-page">
         {% for food in menu %}
             <div class="restaurant-food-card mdl-card mdl-shadow--4dp">
-                <div class="mdl-card__media">
-                    <img src="{{ food.image.url }}" width="100%" height="auto" border="0"
-                                                  alt="">
+                <div class="restaurant-food-card-media mdl-card__media">
+                    <img src="{{ food.image.url }}" border="0"
+                         alt="">
                 </div>
                 <div class="mdl-card__supporting-text">
-                    {{ food.name }}
+                    <strong>{{ food.name }}</strong>
                 </div>
                 <div class="mdl-card__actions mdl-card--border">
-                    <a class="restaurant-food-card-btn mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                    <a class="restaurant-food-card-btn mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+                       href="/restaurant/menu/{{ food.name }}/"
+                    >
                         اطلاعات بیشتر
                     </a>
                 </div>
+
+
             </div>
         {% endfor %}
     </div>

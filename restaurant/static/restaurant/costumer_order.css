@@ -1,0 +1,62 @@
+.costumer-order-page{
+    /*background-image: url("images/newbg.jpg") ;*/
+    /*background-repeat: repeat;*/
+    /*!*background-size: contain;*!*/
+    /*background-clip:padding-box;*/
+    /*background-attachment: scroll;*/
+    /*background-repeat: round;*/
+    background-color: lightyellow;
+    padding-right: 5%;
+    padding-left: 5%;
+    padding-top: 2%;
+    padding-bottom: 5%;
+    direction: rtl;
+    text-align: right;
+    font-family: "X Yekan";
+}
+
+h5{
+    font-family: "X Yekan";
+    background-color: lightyellow;
+    border-radius: 25px;
+    padding: 2%;
+    width: 12%;
+}
+.costumer-order-recents , .costumer-order-past{
+    margin-bottom: 4%;
+    /*background-color: lightyellow;*/
+    padding: 3%;
+    /*border-radius: 25px;*/
+    /*width: auto;*/
+    /*overflow: auto;*/
+}
+.costumer-order-table{
+    /*direction: rtl;*/
+    text-align: center;
+    font-size: medium;
+    margin: auto;
+    /*width: 100%;*/
+}
+.costumer-order-table thead,tbody{
+    /*direction: rtl;*/
+    text-align: center;
+    font-size: medium;
+    /*margin: auto;*/
+    /*width: 100%;*/
+}
+th, td{
+        text-align: center;
+    /*direction: rtl;*/
+    /*margin: 4vw;*/
+}
+.costumer-order-table button{
+    font-family: "X Yekan";
+}
+/*.costumer-order-past{*/
+    /*!*margin-top: 2%;*!*/
+    /*!*margin-bottom: 3%;*!*/
+    /*margin: 10%;*/
+    /*background-color: rgba(245, 245, 245, 0.8);*/
+    /*!*width: auto;*!*/
+    /*!*overflow: auto;*!*/
+/*}*/

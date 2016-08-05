@@ -1,0 +1,14 @@
+.order-details-page{
+    background-color: lightyellow;
+    direction: rtl;
+    padding: 5%;
+}
+h4{
+    font-family: "X Yekan";
+}
+.order-details-table table{
+    direction: rtl;
+    text-align: center;
+        margin: auto;
+
+}

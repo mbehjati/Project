@@ -1,0 +1,121 @@
+{% extends 'restaurant/restaurant_base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <link rel="stylesheet" href={% static "restaurant/banch_menu.css" %}>
+    {#    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>#}
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            'use strict';
+            var snackbarContainer = document.querySelector('#demo-snackbar-example');
+            var mymen = {};
+            {% for f,o  in dic %}
+                var offers = [];
+                {% for li in o%}
+                    offers.push('{{ li }}');
+                {% endfor %}
+                mymen['{{ f }}'] = offers;
+                console.log($('{{ f }}'+'-div').text());
+            {% endfor %}
+{#            console.log(mymen);#}
+
+            $(".branch-food-card-btn").click(function () {
+
+                var $inputs = $('form :input');
+                var btn = this.id;
+                var n;
+                $inputs.each(function () {
+                    if (this.name == btn) {
+                        n = Number($(this).val());
+                        n = n + 1;
+                        $(this).val(n);
+                    }
+                });
+                $(this).next().text(n.toString());
+                console.log(mymen[btn]);
+
+                var lili = $('#list').children();
+                var has = false;
+                lili.each(function () {
+                    if ($(this).attr('id') === (btn + '-li')) {
+                        has = true;
+                        var c = $(this).children()[1];
+                        c.innerHTML = n.toString();
+                    }
+                });
+
+                if (!has){
+                    var s = '<li id = "' + btn + '-li" class="mdl-list__item"><span class="mdl-list__item-primary-content"> ' + btn + ' </span> <span class ="num">' + n.toString() + '</span></li>';
+                    $('#list').prepend(s);
+                }
+
+            });
+        });
+    </script>
+    <div class="branch-order-container" style="overflow:auto;">
+        <div class="sidebar" style="position: fixed;
+height: 132px;
+left: 0;
+top: 185px;
+width: 24px;">
+        </div>
+
+        <div class="branch-order-page">
+            <div id="demo-snackbar-example" class="mdl-js-snackbar mdl-snackbar">
+                <div class="mdl-snackbar__text"></div>
+                <button class="mdl-snackbar__action" type="button"></button>
+            </div>
+            <div class="branch-order-food-recom">
+                <h4 style="font-family: 'X Yekan'">احتمالا مایل به خرید غذاهای زیر هستید:</h4>
+            </div>
+            <hr>
+            <div class="branch-menu-page">
+                <h4 style="font-family: 'X Yekan';text-align: right;">منو رستوران:</h4>
+                {% include "restaurant/food_card.html" %}
+            </div>
+            <hr>
+            <div id="order">
+                <h4 style="font-family: 'X Yekan'">سفارش شما:</h4>
+                <ul id="list">
+
+                </ul>
+            </div>
+            <hr>
+            <h4 style="font-family: 'X Yekan'">اطلاعات تکمیلی سفارش:</h4>
+
+            <form action="" method="post">
+
+                {% for food in menu %}
+                    <input type="hidden" name="{{ food.name }}">
+                {% endfor %}
+
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
+                    <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" name="has_child">
+                    <span class="mdl-checkbox__label">به همراه داشتن کودک خردسال</span>
+                </label><br>
+                <br>
+                <span style="font-size: medium">شیوه تحویل سفارش:    </span>
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                    <span class="mdl-radio__label">منزل</span>
+                    <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+                </label>
+                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                    <span class="mdl-radio__label">حضوری</span>
+                    <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+                </label><br>
+
+                <label for="date_picker">تاریخ دریافت سفارش</label>
+                <input id="date_picker" type="date" name="date"><br>
+                <label for="time_picker">زمان دریافت سفارش</label>
+                <input id="time_picker" type="time" name="date"><br>
+                <input id="submit_btn" type="submit"
+                       class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" value="ثبت سفارش">
+            </form>
+
+        </div>
+
+
+    </div>
+{% endblock %}

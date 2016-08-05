@@ -1,34 +1,56 @@
-<!DOCTYPE html>
+{% extends 'restaurant/restaurant_base.html' %}
 {% load staticfiles %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-     <link rel="stylesheet" href={% static "restaurant/forms.css" %}>
-</head>
-<body>
-{% load staticfiles %}
-{% include 'material/includes/material_css.html' %}
-<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
-{% include 'material/includes/material_js.html' %}
-{#<form action="/form/" method="post">#}
-{#    {% csrf_token %}#}
-{##}
-{#    {{ form }}#}
-{#    <input type="submit" value="جستجو" />#}
-{#</form>#}
 
-{% load material_form %}
-<form action="/search/" method="POST">
-    {% csrf_token %}
-    {% form form=form %}{% endform %}
-    <button type="submit" name="_submit" class="btn">Submit</button>
-</form>
 
-<h1>
-    {% for data in result %}
-{{ data }} <br>
-    {% endfor %}
-</h1>
-</body>
-</html>
+{% block content %}
+    {% include 'material/includes/material_css.html' %}
+    <script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+    {% include 'material/includes/material_js.html' %}
+    <link rel="stylesheet" href="{% static "restaurant/base_styles.css" %}">
+    <link rel="stylesheet" href={% static "restaurant/menu.css" %}>
+    <link rel="stylesheet" href={% static "restaurant/search.css" %}>
+
+    {% load material_form %}
+    <div class="restaurant-search" >
+        <div class="restaurant-search-form">
+            {% load material_form %}
+            <form action="" method="POST">
+                {% csrf_token %}
+                {% form form=form %}
+{#                    {% attr form.name 'class' class append %}dir{% endattr %}#}
+                {% endform %}
+                {#                {% for field in form %}#}
+                {#                    {{ field }}<br>#}
+                {#                {% endfor %}#}
+
+                <button type="submit" name="_submit" class="btn mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect">جست و جو</button>
+            </form>
+        </div>
+        <div id="res" class="restaurant-search-results">
+{#            {% if not result %}#}
+{#                <h4 style="font-family: 'X Yekan'">غذای مورد نظر شما یافت نشد.</h4>#}
+{#            {% endif %}#}
+            {% for food in result %}
+                <div class="restaurant-food-card mdl-card mdl-shadow--4dp">
+                    <div class="restaurant-food-card-media mdl-card__media">
+                        <img src="{{ food.image.url }}" border="0"
+                             alt="">
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <strong>{{ food.name }}</strong>
+                    </div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        <a class="restaurant-food-card-btn mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+                           href="/restaurant/menu/{{ food.name }}/"
+                        >
+                            اطلاعات بیشتر
+                        </a>
+                    </div>
+
+
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
