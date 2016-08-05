@@ -77,20 +77,21 @@ class Cook(models.Model):
         return str(self.cook_id.name)
 
 
-class FoodType(models.Model):
-    name = models.CharField(max_length=50, primary_key=True)
-    recipe = models.TextField()
-    rate = models.FloatField(default=5)
-    price = models.IntegerField()
-
-    def __str__(self):
-        return str(self.name)
-
-
 class Ability(models.Model):
     ability_id = models.IntegerField(primary_key=True)
     definition = models.TextField()
 
+
+class FoodType(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+    recipe = models.TextField(null=True)
+    rate = models.FloatField(default=5)
+    price = models.IntegerField()
+    image = models.ImageField(upload_to='food', null=True)
+
+    def __str__(self):
+        return str(self.name)
+        # image = models.ImageField()
 
 class CookAbility(models.Model):
     cook = models.ForeignKey(Cook)
@@ -111,6 +112,8 @@ class TaskEmployee(models.Model):
 
 class ParkingMan(models.Model):
     parking_man_id = models.OneToOneField(Employee, primary_key=True)
+
+
 
 
 class Waiter(models.Model):
@@ -141,20 +144,22 @@ class CommentEmp(models.Model):
 class Order(models.Model):
     is_permanent = models.BooleanField()
     is_changable = models.BooleanField()
+    has_child = models.NullBooleanField()
+    place = models.BooleanField(default='True', choices=((1, 'منزل'),
+                                                         (2, 'حضوری'),))
     trackID = models.IntegerField()
     branch = models.ForeignKey(Branch)
-    user = models.ForeignKey(User , null=True)
+    user = models.ForeignKey(User)
     date = models.DateField()
     time = models.TimeField()
-    place = models.BooleanField()
-    has_child = models.NullBooleanField()
 
 
 class Menu(models.Model):
     # image = models.ImageField()
     name = models.CharField(max_length=50)
     description = models.TextField(null=True)
-    branch = models.ForeignKey(Branch)
+    branch = models.OneToOneField(Branch, on_delete=models.CASCADE,
+                                  primary_key=True)
 
     def __str__(self):
         return str(self.name)
@@ -166,11 +171,7 @@ class PeriodicOrder(models.Model):
     trackID = models.IntegerField()
     branch = models.ForeignKey(Branch)
 
-    def __str__(self):
-        return str(self.name)
-        # image = models.ImageField()
 
-    image = models.ImageField(upload_to='food', null=True)
 
 
 class TasteType(models.Model):
