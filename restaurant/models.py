@@ -29,18 +29,24 @@ class Warehouse(models.Model):
     address = models.TextField()
 
     def __str__(self):
-        return self.warehouse_id
+        return "انبار شماره "+str(self.warehouse_id)
 
 
 class Material(models.Model):
-    name = models.CharField(max_length=50)
-    expire_date = models.DateTimeField(null=True)
+    name = models.CharField(max_length=50 , primary_key=True)
+
+    def __str__(self):
+        return str(self.name)
+
 
 
 class MaterialInWarehouse(models.Model):
     warehouse = models.ForeignKey(Warehouse)
     material = models.ForeignKey(Material)
     value = models.IntegerField()
+    expire_date = models.DateTimeField(null=True)
+
+
 
 
 class Branch(models.Model):
@@ -67,6 +73,19 @@ class Employee(models.Model):
 class Cook(models.Model):
     cook_id = models.OneToOneField(Employee, primary_key=True)
 
+    def __str__(self):
+        return str(self.cook_id.name)
+
+
+class FoodType(models.Model):
+    name = models.CharField(max_length=50, primary_key=True)
+    recipe = models.TextField()
+    rate = models.FloatField(default=5)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return str(self.name)
+
 
 class Ability(models.Model):
     ability_id = models.IntegerField(primary_key=True)
@@ -75,7 +94,8 @@ class Ability(models.Model):
 
 class CookAbility(models.Model):
     cook = models.ForeignKey(Cook)
-    ability = models.ForeignKey(Ability)
+    ability = models.ForeignKey(FoodType)
+    number = models.IntegerField()
 
 
 class Task(models.Model):
@@ -91,8 +111,6 @@ class TaskEmployee(models.Model):
 
 class ParkingMan(models.Model):
     parking_man_id = models.OneToOneField(Employee, primary_key=True)
-
-
 
 
 class Waiter(models.Model):
@@ -125,9 +143,11 @@ class Order(models.Model):
     is_changable = models.BooleanField()
     trackID = models.IntegerField()
     branch = models.ForeignKey(Branch)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User , null=True)
     date = models.DateField()
     time = models.TimeField()
+    place = models.BooleanField()
+    has_child = models.NullBooleanField()
 
 
 class Menu(models.Model):
@@ -146,17 +166,11 @@ class PeriodicOrder(models.Model):
     trackID = models.IntegerField()
     branch = models.ForeignKey(Branch)
 
-
-class FoodType(models.Model):
-    name = models.CharField(max_length=50)
-    recipe = models.TextField(null=True)
-    rate = models.FloatField(default=5)
-    price = models.IntegerField()
-
     def __str__(self):
         return str(self.name)
         # image = models.ImageField()
-    image = models.ImageField(upload_to='food',null=True)
+
+    image = models.ImageField(upload_to='food', null=True)
 
 
 class TasteType(models.Model):
@@ -170,7 +184,11 @@ class Food(models.Model):
     food_type = models.ForeignKey(FoodType)
     status = models.BooleanField()
     order = models.ForeignKey(Order)
+    number = models.IntegerField()
     # TODO: what to do ?!
+
+    def __str__(self):
+        return str(self.food_type.name) +  ' برای سفارش ' +str(self.order.trackID) +' : تعداد ' + str(self.number)
 
 
 class FoodInMenu(models.Model):
@@ -192,7 +210,7 @@ class Chair(models.Model):
     branch = models.ForeignKey(Branch)
 
     def __str__(self):
-        return "chair "+ str(self.id)
+        return "chair " + str(self.id)
 
 
 class Parking(models.Model):
@@ -276,7 +294,7 @@ class ChairInOrder(models.Model):
     order = models.ForeignKey(Order)
 
     def __str__(self):
-        return "chair" + str(self.chair.id) + "for order "+ str(self.order.id)
+        return "chair" + str(self.chair.id) + "for order " + str(self.order.id)
 
 
 class ParkingInOrder(models.Model):
@@ -285,3 +303,35 @@ class ParkingInOrder(models.Model):
 
     def __str__(self):
         return "parking" + str(self.parking.id) + "for order " + str(self.order.id)
+
+
+class FoodCook(models.Model):
+    food = models.ForeignKey(Food)
+    cook = models.ForeignKey(Cook)
+    done = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.food.food_type.name) + ' برای سفارش ' + str(self.food.order.trackID) + ' : تعداد ' + str(self.food.number)
+
+
+class FoodOffer(models.Model):
+    food = models.ForeignKey(FoodType, related_name='food_for_offer')
+    offer = models.ForeignKey(FoodType, related_name='offer')
+
+
+class OrderDeliveryMan(models.Model):
+    order = models.ForeignKey(Order)
+    deliveryman = models.ForeignKey(DeliveryMan)
+    done = models.BooleanField()
+
+    def __str__(self):
+        return 'سفارش شماره‌ي : ' + str(self.order.trackID)
+
+
+class OrderWaiter(models.Model):
+    order = models.ForeignKey(Order)
+    waiter = models.ForeignKey(Waiter)
+    done = models.BooleanField()
+
+    def __str__(self):
+        return 'سفارش شماره‌ی : '+ str(self.order.trackID)
