@@ -162,7 +162,7 @@ class Order(models.Model):
     has_child = models.NullBooleanField()
     place = models.BooleanField(default='True', choices=((1, 'منزل'),
                                                          (2, 'حضوری'),))
-    trackID = models.IntegerField()
+    trackID = models.IntegerField(primary_key=True)
     branch = models.ForeignKey(Branch)
     user = models.ForeignKey(MyUser)
     date = models.DateField()
