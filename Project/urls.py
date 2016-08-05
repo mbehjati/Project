@@ -44,6 +44,8 @@ urlpatterns = [
     url(r'^clerk/authentication', viewsForEmployee.clerk_authentication),
     url(r'^deliveryman/authentication', viewsForEmployee.delivery_authentication),
     url(r'^waiter/authentication', viewsForEmployee.waiter_authentication),
+    url(r'^user/', include('user.urls')),
+
     # url(r'^thanks/', views.thanks),
 ]
 

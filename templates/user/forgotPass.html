@@ -2,9 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title></title>
 </head>
 <body>
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
+{% load material_form %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <br>
+<pre>        کاربر  گرامی گذرواژه شما به ایمیلتان ارسال شد. برای ورود از طریق میلتان اقدام کنید.
+    </pre>
+<pre><a href="login">  بازگشت به صفحه قبل  </a></pre>
 
+</form>
 </body>
 </html>

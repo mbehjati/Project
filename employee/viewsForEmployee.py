@@ -1,6 +1,7 @@
 import operator
 
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -13,7 +14,7 @@ from employee.employeeForms import OrderAuthenticationForm, CookDuty, RecipeForm
     MaterialForm, ReportForm, OrderingForm, WaiterDutyForm, DeliveryDutyForm
 from restaurant.models import Order, ParkingInOrder, ChairInOrder, Food, FoodCook, Cook, FoodType, CookAbility, \
     FoodOffer, Material, Warehouse, MaterialInWarehouse, MaterialInFood, Waiter, DeliveryMan, OrderWaiter, \
-    OrderDeliveryMan, Employee
+    OrderDeliveryMan, Employee, FoodInMenu, MyUser
 
 
 def send_mail_to_delivery(email, order):
@@ -220,15 +221,21 @@ def check_done_foods(picked):
 
 
 def duty_list_cook(request):
+    user = request.user.id
+    userObj = User.objects.get(pk=user)
+    myuser = MyUser.objects.get(user=userObj)
+    emp = Employee.objects.get(user=myuser)
+    c = emp.cook
+
     if request.method == 'POST':
-        c = Cook.objects.all()[0]
+        # c = Cook.objects.all()[0] #TODO
         form = CookDuty(cook=c, data=request.POST)
         if form.is_valid():
             print(form.cleaned_data['duty'].__len__())
             check_done_foods(form.cleaned_data['duty'])
             return render(request, 'employee/cook_duty.html', {'form': form})
     else:
-        c = Cook.objects.all()[0]
+        # c = Cook.objects.all()[0]
         form = CookDuty(cook=c)
     return render(request, 'employee/cook_duty.html', {'form': form})
 
@@ -279,7 +286,9 @@ def add_ability(request):
     if request.method == 'POST':
         form = AbilityForm(data=request.POST)
         if form.is_valid():
-            c = Cook.objects.all()[0]
+            emp = Employee.objects.get(user=request.MyUser)
+            c = emp.cook
+            # c = Cook.objects.all()[0]
             add_cook_ability(form.cleaned_data["foods"], form.cleaned_data['number'], c)
             return render(request, 'employee/add_ability.html', {'form': form})
     else:
@@ -375,16 +384,26 @@ def get_warehouse_report(request):
 
 
 
+def get_foods_in_branch(branch):
+    ans = []
+    for f in FoodType.objects.all():
+        if FoodInMenu.objects.filter(food_type=f , menu=branch.menu).count()>0 :
+            ans.append(f)
+    return ans
+
+
 def get_order(request):
     if request.method == 'POST':
+        emp = Employee.objects.get(user=request.MyUser)
+        clerk = emp.clerk
+        branch = emp.branch
+        foods = get_foods_in_branch(branch)
         form = OrderingForm(data=request.POST)
         if form.is_valid():
             order.submit_order(request)
-            foods = FoodType.objects.all()
             return render(request, 'employee/employee_order.html',
                           {'form': form, 'foods': foods})
     else:
-        foods = FoodType.objects.all()
         form = OrderingForm()
     return render(request, 'employee/employee_order.html', {'form': form, 'foods': foods})
 
@@ -404,14 +423,14 @@ def check_done_waiter_duty(picked):
 
 def duty_list_waiter(request):
     if request.method == 'POST':
-        w = Waiter.objects.all()[0]
+        w = Employee.objects.get(user=request.MyUser).waiter
         form = WaiterDutyForm(waiter=w, data=request.POST)
         if form.is_valid():
             print(form.cleaned_data['duty'].__len__())
             check_done_waiter_duty(form.cleaned_data['duty'])
             return render(request, 'employee/waiter_duty.html', {'form': form})
     else:
-        w = Waiter.objects.all()[0]
+        w = Employee.objects.get(user=request.MyUser).waiter
         form = WaiterDutyForm(waiter=w)
     return render(request, 'employee/waiter_duty.html', {'form': form})
 
@@ -431,13 +450,13 @@ def check_done_delivery_duty(picked):
 
 def duty_list_deliveryman(request):
     if request.method == 'POST':
-        d = DeliveryMan.objects.all()[0]
+        d = Employee.objects.get(user=request.MyUser).deliveryman
         form = DeliveryDutyForm(deliveryman=d, data=request.POST)
         if form.is_valid():
             print(form.cleaned_data['duty'].__len__())
             check_done_delivery_duty(form.cleaned_data['duty'])
             return render(request, 'employee/deliveryman_duty.html', {'form': form})
     else:
-        d = DeliveryMan.objects.all()[0]
+        d = Employee.objects.get(user=request.MyUser).deliveryman
         form = DeliveryDutyForm(deliveryman=d)
     return render(request, 'employee/deliveryman_duty.html', {'form': form})

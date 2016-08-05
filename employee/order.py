@@ -47,7 +47,7 @@ def choose_waiter():
 
 def submit_order(request):
     trackID = int(uuid.uuid4().time_low) + int(uuid.uuid4().time_mid)
-    branch = Branch.objects.all()[0]  # TODO real branch
+    branch = Employee.objects.get(user=request.MyUser).branch  # TODO real branch
     is_permanent = True
     is_changable = False
     date = datetime.datetime.now().date()

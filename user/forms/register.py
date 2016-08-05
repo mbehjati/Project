@@ -1,5 +1,23 @@
 from django import forms
-from restaurant.models import Myuserr
+from restaurant.models import MyUser
+from django.contrib.auth.models import User
+
+
+class UserForm(forms.ModelForm):
+    pass_conf = forms.CharField(widget=forms.widgets.PasswordInput, label="Password(again)")
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'pass_conf', 'first_name', 'last_name', 'email']
+        widgets = {
+            'password': forms.PasswordInput,
+        }
+
+
+class MyUserForm(forms.ModelForm):
+    class Meta:
+        model = MyUser
+        exclude = ['user']
 
 
 # class RegisterForm(forms.ModelForm):
@@ -13,8 +31,14 @@ from restaurant.models import Myuserr
 #         }
 
 
-class RegisterForm(forms.ModelForm):
+'''class RegisterForm(forms.ModelForm):
     pass_conf = forms.CharField(max_length=50, label="password(again)", widget=forms.PasswordInput)
+    username = forms.CharField()
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    phone_number = forms.CharField()
+    password = forms.CharField(max_length=50, label="password", widget=forms.PasswordInput)
+    email = forms.EmailField()
     # isHotelier = forms.BooleanField(label="ثبت نام به عنوان هتل دار", required=False)
     # captcha = CaptchaField()
 
@@ -30,12 +54,21 @@ class RegisterForm(forms.ModelForm):
         return cleaned_data
 
     class Meta:
-        model = Myuserr
-        fields = ['username', 'password', 'password2', 'name', 'address', 'phone_number', 'email']
+        model = MyUser
+        fields = ['username', 'password', 'pass_conf', 'first_name', 'last_name', 'phone_number', 'email']
+        # fields = ['username', 'password', 'pass_conf', 'first_name', 'phone_number']
         widgets = {
             'password': forms.PasswordInput,
         }
 
+    # def save(self, **kwargs):
+    #     myuser = super().save(commit=False)
+    #     user = User.objects.create(username=self.cleaned_data['username'], first_name=self.cleaned_data['first_name'],)
+    #     user.set_password(self.cleaned_data['password'])
+    #     myuser.user = user
+    #     myuser.phone_number = self.cleaned_data['phone_number']
+    #     myuser.save(commit=True)
+'''
 
 '''
     def clean(self):

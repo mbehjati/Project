@@ -6,5 +6,30 @@
 </head>
 <body>
 
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
+{% load material_form %}
+<form action="" method="post" dir="rtl">
+
+    <h1> مشخصات پروفایل </h1>
+    <strong>نام کاربری: </strong> {{ myuser.user.username }}
+<br>
+<strong>نام: </strong> {{ myuser.user.first_name }}
+<br>
+    <strong>نام خانوادگی: </strong> {{ myuser.user.last_name }}
+<br>
+<strong>آدرس: </strong> {{ myuser.address }}
+<br>
+<strong>شماره تماس: </strong> {{ myuser.phone_number}}
+<br>
+<strong>ایمیل: </strong> {{ myuser.user.email }}
+<br>
+{#<strong>رمز عبور: </strong> {{ user.password }}#}
+{#<br>#}
+
+<a href="editProfile" class="btn btn-primary"> ویرایش مشخصات </a>
+    <a href="editUserName" class="btn btn-primary"> تغییر نام کاربری </a>
+     <a href="editPassword" class="btn btn-primary"> تغییر رمز عبور </a>
+</form>
 </body>
 </html>
