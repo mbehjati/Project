@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 
-from employee.order import submit_order, submit_order_customer, calculate_price
+from employee.order import submit_order, submit_order_customer, calculate_price, confirm_order
 from restaurant.models import FoodType
 from .forms import *
 from .models import *
@@ -36,11 +36,13 @@ def menu(request):
 # def food(request, food_name):
 
 def food(request, food_name):
-    print('here')
-    print(food_name)
     food_type = get_object_or_404(FoodType, pk=food_name)
-    # return HttpResponse('inja')
-    return render(request, 'restaurant/food.html', {'food': food_type})
+    materials = food_type.materialinfood_set.values_list('material')
+    mater = ""
+    for mat in materials:
+        mater = mat + "- "
+    comments = food_type.comment_set.values_list('text', 'user')
+    return render(request, 'restaurant/food.html', {'food': food_type, 'material':mater, 'comments':comments})
 
 
 from .forms import NameForm, SearchForm
@@ -159,6 +161,7 @@ def search(request):
 
 @login_required
 def show_branch_menu(request, branch_id):
+    #TODO food recom and chef
     branch = get_object_or_404(Branch, pk=branch_id)
     user = request.user.id
     user_obj = User.objects.get(pk=user)
@@ -220,8 +223,16 @@ def order_detail(request, order_id):
         foodt = get_object_or_404(FoodType, pk=food.food_type)
         order_food.append((foodt, food.number, foodt.price * food.number))
 
-        # = requested_order.food_set.values_list('food_type','number')
-    # print(order_food)
+    #TODO : show total price if you had time
+    if(request.method == 'POST'):
+        result = request.POST
+        discount = result['discount']
+        has_child = result['has_child']
+        place = result['options']
+        chair = result['chair']
+        parking = result['parking']
+        confirm_order(requested_order , discount, has_child, place , chair, parking)
+        #TODO: redirect to orders page!
     return render(request, 'restaurant/order_detail.html', {'order': requested_order, 'order_food': order_food})
 
 

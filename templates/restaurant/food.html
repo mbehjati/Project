@@ -10,38 +10,30 @@
                 <h4 class="mdl-title" style="font-family: 'X Yekan'">{{ food.name }}</h4>
                 <br>
                 <p>
-{#                    TODO:fix this part#}
-                    مواد اولیه: پپرونی- پنیر پیتزا- قارچ- زیتون- پنیر- سس مخصوص
+                    امتیاز: {{ food.rate}}
                 </p>
                 <p>
-                    دستور پخت: ابتدا سس را روی خمیر میزنیم. سپس پپرونی قارچ و زیتون را روی آن میچینیم. در نهایت پنیر
-                    را روی آن میپاشیم و نیم ساعت داخل فر قرار میدهیم.
+                    مواد اولیه:
+{#                    TODO:fix this part#}
+                    {{ material }}
+                </p>
+                <p>
+                    دستور پخت:
+                    {{ food.recipe }}
                 </p>
             </div>
         </div>
         <div class="restaurant-food-detail-comments">
+        <h4 style="font-family: 'X Yekan'">نظرات در مورد این غذا</h4>
+        <hr style="margin-bottom: 2%">
             <ul class="list mdl-list">
+                {% for comment,muser in comments %}
                 <li>
                     <div class="restaurant-food-detail-comments-single">
-                        <p>
-                            به نظر من خیلی خوشمزه اس!!!
-                        </p>
+                        {{ muser.user.username }}:{{ comment }}
                     </div>
                 </li>
-                <li>
-                    <div class="restaurant-food-detail-comments-single">
-                        <p>
-                            به نظر من خیلی خوشمزه اس!!!
-                        </p>
-                    </div>
-                </li>
-                <li>
-                    <div class="restaurant-food-detail-comments-single">
-                        <p>
-                            به نظر من خیلی خوشمزه اس!!!
-                        </p>
-                    </div>
-                </li>
+                {% endfor %}
             </ul>
         </div>
     </div>

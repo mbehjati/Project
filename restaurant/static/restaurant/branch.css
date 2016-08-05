@@ -32,3 +32,13 @@
     font-size: x-large;
     margin-bottom: 0.3%;
 }
+.branch-order-btn{
+    font-family: "X Yekan";
+    float: left;
+    font-size: large;
+    padding: 1.5%;
+    margin-top: 4%;
+}
+.txt{
+    float: right;
+}

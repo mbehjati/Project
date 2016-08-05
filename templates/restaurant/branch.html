@@ -8,9 +8,10 @@
         {% for branch in branches %}
             <div class="restaurant-branch">
                 <img class="restaurant-branch-img" src={% static "restaurant/images/location.png" %}>
+                <div class="txt">
                 <p class="restaurant-branch-info-title">
-                    {{ branch.branch_id }}
-                </p>
+                    شعبه {{ branch.branch_id }}
+                </p><br>
                 <p class="restaurant-branch-info">
                     آدرس:
                     {{ branch.address }}
@@ -20,6 +21,8 @@
                     شماره تماس:
                 {{ branch.phone_number }}
                 </p>
+                    </div>
+                <a class="branch-order-btn mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="/restaurant/branch/{{ branch.branch_id }}/">سفارش اینترنتی</a>
             </div>
 
         {% endfor %}
