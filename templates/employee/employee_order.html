@@ -74,8 +74,8 @@
     </select>
     تعداد :  <input type="number" name="number" id="num">
 
-    {% for item in foods %}
-         <input type="hidden" name="{{ item.name }}" >
+    {% for f in foods %}
+         <input type="hidden" name='{{ f.name }}' >
     {% endfor %}
 
     <input type="hidden" id="show">
