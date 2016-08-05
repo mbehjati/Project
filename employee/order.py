@@ -123,7 +123,7 @@ def calculate_price(order):
     price = 0
     for food in Food.objects.all():
         if food.order == order:
-            price += food.food_type.price
+            price += food.food_type.price * food.number
     return price
 
 

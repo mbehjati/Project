@@ -194,18 +194,22 @@ def show_branch_menu(request, branch_id):
 
 @csrf_exempt
 def costumer(request):
-    orders = Order.objects.all()
-    prices={}
+    orders = Order.objects.filter(is_done=False)
+    done = Order.objects.filter(is_done=True)
+    prices=[]
     for ord in orders:
-        prices[ord]  = calculate_price(ord)
+        prices.append((ord, calculate_price(ord)))
+
+    pricep=[]
+    for past in done:
+        pricep((past, calculate_price(past)))
 
     if (request.method == 'POST'):
-        print('salam')
         print(request.POST['name'])
-        #TODO: remove from database
+        #TODO: check
+        get_object_or_404(Order,pk= request.POST['name']).delete()
         return HttpResponse('successfully deleted')
-    #TODO: done orders
-    return render(request, 'restaurant/costumer_order.html', {'orders': orders , 'prices':prices})
+    return render(request, 'restaurant/costumer_order.html', {'orders':prices , 'done':pricep})
 
 
 def order_detail(request, order_id):
