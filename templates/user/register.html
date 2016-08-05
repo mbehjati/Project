@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
+{% load material_form %}
+<form action="" method="post">
+
+    {% csrf_token %}
+      {% form form=userform %}{% endform %}
+  {% form form=userprofileform %}{% endform %}
+{#    {{userform}}#}
+{#    {{userprofileform}}#}
+{#    {% form form=form %}{% endform %}#}
+    <button type="submit" name="_register" class="btn">Submit</button>
+</form>
+</body>
+</html>

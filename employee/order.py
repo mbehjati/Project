@@ -66,7 +66,7 @@ def submit_order(request):
 
     foods_order = []
     for f_type in FoodType.objects.all():
-        val = request.POST[f_type.name]
+        val = request.POST.get(f_type.name,0)
         if val != '' and val != 0:
             food = Food(food_type=f_type, order=order, number=val, status=False)
             food.save()
@@ -84,7 +84,7 @@ def submit_order(request):
 
 def submit_order_customer(user, branch, date, time, dic):
     trackID = int(uuid.uuid4().time_low) + int(uuid.uuid4().time_mid)
-    # branch = Branch.objects.all()[0]  # TODO real branch
+    # branch = Branch.objects.all()[0]
     # is_permanent = True
     # is_changable = False
     # date = datetime.datetime.now().date()
