@@ -1,0 +1,34 @@
+{% extends 'restaurant/restaurant_base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static "user/profile.css" %}">
+    <div class="user-profile">
+        <div class="user-profile-pic">
+            <img src="{% static 'restaurant/images/woman9.jpg' %}">
+            <span></span>
+        </div>
+        <div class="user-profile-info">
+            <ul class="mdl-list">
+                <li class="mdl-list__item-primary-content">
+   نام کاربری: {{ myuser.user.username }}
+</li><li>
+نام:  {{ myuser.user.first_name }}
+</li><li>
+    نام خانوادگی:  {{ myuser.user.last_name }}
+</li><li>
+آدرس:  {{ myuser.address }}
+</li><li>
+شماره تماس:  {{ myuser.phone_number}}
+</li><li>
+ایمیل:  {{ myuser.user.email }}
+</li>
+                </ul>
+            <div class="buttons">
+            <a class="btn mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effec" href="/user/editProfile">ویرایش مشخصات</a>
+            <a class="btn mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effec" href="/user/editUserName">تغییر نام کاربری</a>
+            <a class="btn mdl-button mdl-button--raised mdl-button--colored mdl-js-button mdl-js-ripple-effec" href="/user/editPassword">تغییر رمز عبور</a>
+</div>
+        </div>
+    </div>
+{% endblock %}

@@ -19,6 +19,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.staticfiles.urls import static
 
 import restaurant
+import user
 from Project import settings
 from restaurant import views
 from employee import viewsForEmployee , order

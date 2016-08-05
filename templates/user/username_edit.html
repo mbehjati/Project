@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+
 </head>
 <body>
+{% load staticfiles %}
 {% include 'material/includes/material_css.html' %}
+{#<script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>#}
 {% include 'material/includes/material_js.html' %}
 {% load material_form %}
 <h3> {{ user.username }}</h3>

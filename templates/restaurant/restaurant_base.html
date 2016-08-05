@@ -79,16 +79,16 @@
             </header>
 
             <nav class="restaurant-drawer-navigation mdl-navigation">
-                <a class="mdl-navigation__link" href=""><i class="material-icons" role="presentation">account_circle</i>صفحه شخصی من</a>
-                <a class="mdl-navigation__link" href=""><i class="material-icons" role="presentation">list</i>سفارش‌های من</a>
-                <a class="mdl-navigation__link" href=""><i class="material-icons" role="presentation">power_settings_new</i>خروج</a>
+                <a class="mdl-navigation__link" href="/user/profile"><i class="material-icons" role="presentation">account_circle</i>صفحه شخصی من</a>
+                <a class="mdl-navigation__link" href="/user/orders"><i class="material-icons" role="presentation">list</i>سفارش‌های من</a>
+                <a class="mdl-navigation__link" href="/user/logout"><i class="material-icons" role="presentation">power_settings_new</i>خروج</a>
             </nav>
         {% else %}
             <header class="restaurant-drawer-header">
             <img src="{% static 'restaurant/images/unk.jpg' %}">
             </header>
             <nav class="restaurant-drawer-navigation mdl-navigation">
-                <a class="mdl-navigation__link" href="">ورود به سایت</a>
+                <a class="mdl-navigation__link" href="/user/login">ورود به سایت</a>
             </nav>
         {% endif %}
     </div>

@@ -145,6 +145,7 @@ def send_mail_to_waiter(email, order):
 
 
 def food_suggest():
+    global ordered_food
     setting = Setting.objects.all()[0]
     if setting.most_liked:
         print('here')
@@ -163,7 +164,7 @@ def food_suggest():
                 ordered_food.append(f.food_type)
                 number +=1
 
-    print(ordered_food)
+    return ordered_food
 
 
 def chef_suggest(request):
