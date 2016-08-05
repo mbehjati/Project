@@ -82,7 +82,7 @@ def submit_order(request):
         foodcook.save()
 
 
-def submit_order_customer(user, branch, date, time, dic, has_child):
+def submit_order_customer(user, branch, date, time, dic):
     trackID = int(uuid.uuid4().time_low) + int(uuid.uuid4().time_mid)
     # branch = Branch.objects.all()[0]  # TODO real branch
     # is_permanent = True
@@ -91,7 +91,7 @@ def submit_order_customer(user, branch, date, time, dic, has_child):
     # time = datetime.datetime.now().time()
     has_place = True
     order = Order(trackID=trackID, is_changable=True, is_permanent=False, branch=branch, date=date, time=
-    time, place=has_place, has_child=has_child, user=user)
+    time, place=has_place, user=user)
     order.save()
 
     for food, val in dic:

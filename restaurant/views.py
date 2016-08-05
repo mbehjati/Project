@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.forms import Form
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -10,10 +11,12 @@ from django.http import HttpResponse
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 
+from employee.order import submit_order, submit_order_customer, calculate_price
 from restaurant.models import FoodType
 from .forms import *
 from .models import *
 from django.shortcuts import get_object_or_404, render
+from employee import order
 
 
 def index(request):
@@ -154,9 +157,12 @@ def search(request):
 
     return render(request, 'restaurant/search.html', {'form': form})
 
-
+@login_required
 def show_branch_menu(request, branch_id):
     branch = get_object_or_404(Branch, pk=branch_id)
+    user = request.user.id
+    user_obj = User.objects.get(pk=user)
+    myuser = MyUser.objects.get(user=user_obj)
     menu = branch.menu.foodinmenu_set.values_list('food_type', flat=True)
     a = []
     for f in menu:
@@ -165,11 +171,17 @@ def show_branch_menu(request, branch_id):
     if request.method == 'POST':
         # order = Order(is_changable=True, is_permanent=False, has_child=False, branch_id = branch_id, place=True, trackID=1)
         ord = Order()
+        food_dict = {}
         for foodt in a:
             esm = foodt.name
-            fit = Food(food_type=foodt, order=ord, number=request.POST[esm])
-            print(fit.number)
+            number = request.POST[esm]
+            if(number > 0):
+                food_dict[foodt] = number
 
+        date = request.POST['date']
+        time = request.POST['time']
+        submit_order_customer(myuser, branch , date , time , food_dict)
+        # TODO: redirect to correct page
         return HttpResponse("bia berim dasht")
     else:
         dic = []
@@ -183,12 +195,17 @@ def show_branch_menu(request, branch_id):
 @csrf_exempt
 def costumer(request):
     orders = Order.objects.all()
+    prices={}
+    for ord in orders:
+        prices[ord]  = calculate_price(ord)
+
     if (request.method == 'POST'):
         print('salam')
         print(request.POST['name'])
+        #TODO: remove from database
         return HttpResponse('successfully deleted')
-
-    return render(request, 'restaurant/costumer_order.html', {'orders': orders})
+    #TODO: done orders
+    return render(request, 'restaurant/costumer_order.html', {'orders': orders , 'prices':prices})
 
 
 def order_detail(request, order_id):
@@ -200,7 +217,7 @@ def order_detail(request, order_id):
         order_food.append((foodt, food.number, foodt.price * food.number))
 
         # = requested_order.food_set.values_list('food_type','number')
-    print(order_food)
+    # print(order_food)
     return render(request, 'restaurant/order_detail.html', {'order': requested_order, 'order_food': order_food})
 
 

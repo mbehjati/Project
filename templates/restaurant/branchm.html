@@ -90,26 +90,26 @@ width: 24px;">
                 {% for food in menu %}
                     <input type="hidden" name="{{ food.name }}">
                 {% endfor %}
-
-                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">
-                    <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" name="has_child">
-                    <span class="mdl-checkbox__label">به همراه داشتن کودک خردسال</span>
-                </label><br>
-                <br>
-                <span style="font-size: medium">شیوه تحویل سفارش:    </span>
-                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-                    <span class="mdl-radio__label">منزل</span>
-                    <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
-                </label>
-                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-                    <span class="mdl-radio__label">حضوری</span>
-                    <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
-                </label><br>
+{##}
+{#                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-2">#}
+{#                    <input type="checkbox" id="checkbox-2" class="mdl-checkbox__input" name="has_child">#}
+{#                    <span class="mdl-checkbox__label">به همراه داشتن کودک خردسال</span>#}
+{#                </label><br>#}
+{#                <br>#}
+{#                <span style="font-size: medium">شیوه تحویل سفارش:    </span>#}
+{#                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">#}
+{#                    <span class="mdl-radio__label">منزل</span>#}
+{#                    <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>#}
+{#                </label>#}
+{#                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">#}
+{#                    <span class="mdl-radio__label">حضوری</span>#}
+{#                    <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">#}
+{#                </label><br>#}
 
                 <label for="date_picker">تاریخ دریافت سفارش</label>
                 <input id="date_picker" type="date" name="date"><br>
                 <label for="time_picker">زمان دریافت سفارش</label>
-                <input id="time_picker" type="time" name="date"><br>
+                <input id="time_picker" type="time" name="time"><br>
                 <input id="submit_btn" type="submit"
                        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" value="ثبت سفارش">
             </form>

@@ -180,9 +180,10 @@ class Order(models.Model):
                                                          (1, 'حضوری'),))
     trackID = models.IntegerField(primary_key=True)
     branch = models.ForeignKey(Branch)
-    user = models.ForeignKey(MyUser)
+    user = models.ForeignKey(MyUser , null=True)
     date = models.DateField()
     time = models.TimeField()
+    is_done = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.trackID)
