@@ -21,7 +21,7 @@ from django.contrib.staticfiles.urls import static
 import restaurant
 from Project import settings
 from restaurant import views
-from employee import viewsForEmployee
+from employee import viewsForEmployee , order
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -45,8 +45,7 @@ urlpatterns = [
     url(r'^deliveryman/authentication', viewsForEmployee.delivery_authentication),
     url(r'^waiter/authentication', viewsForEmployee.waiter_authentication),
     url(r'^user/', include('user.urls')),
-
-    # url(r'^thanks/', views.thanks),
+    url(r'^thanks/', order.chef_suggest),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

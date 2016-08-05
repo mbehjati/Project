@@ -15,6 +15,7 @@ class MyUser(models.Model):
     user = models.OneToOneField(User)
     phone_number = models.CharField(max_length=11)
     is_active = False
+    address = models.TextField(default="")
     # USERNAME_FIELD = 'username'
     # i=user.id
     # address = models.TextField()
@@ -128,23 +129,38 @@ class TaskEmployee(models.Model):
 class ParkingMan(models.Model):
     parking_man_id = models.OneToOneField(Employee, primary_key=True)
 
+    def __str__(self):
+        return str(self.parking_man_id)
 
 
 
 class Waiter(models.Model):
     waiter_id = models.OneToOneField(Employee, primary_key=True)
 
+    def __str__(self):
+        return str(self.waiter_id)
+
 
 class WarehouseMan(models.Model):
     warehouse_man_id = models.OneToOneField(Employee, primary_key=True)
+
+    def __str__(self):
+        return str(self.warehouse_man_id)
 
 
 class DeliveryMan(models.Model):
     delivery_man_id = models.OneToOneField(Employee, primary_key=True)
 
+    def __str__(self):
+        return str(self.delivery_man_id)
+
 
 class Clerk(models.Model):
     clerk_id = models.OneToOneField(Employee, primary_key=True)
+
+    def __str__(self):
+        return str(self.clerk_id)
+        return str(self.clerk_id)
 
 
 class CommentEmp(models.Model):
@@ -160,13 +176,16 @@ class Order(models.Model):
     is_permanent = models.BooleanField()
     is_changable = models.BooleanField()
     has_child = models.NullBooleanField()
-    place = models.BooleanField(default='True', choices=((1, 'منزل'),
-                                                         (2, 'حضوری'),))
+    place = models.BooleanField(default='True', choices=((0, 'منزل'),
+                                                         (1, 'حضوری'),))
     trackID = models.IntegerField(primary_key=True)
     branch = models.ForeignKey(Branch)
     user = models.ForeignKey(MyUser)
     date = models.DateField()
     time = models.TimeField()
+
+    def __str__(self):
+        return str(self.trackID)
 
 
 class Menu(models.Model):
@@ -310,7 +329,7 @@ class ChairInOrder(models.Model):
     order = models.ForeignKey(Order)
 
     def __str__(self):
-        return "chair" + str(self.chair.id) + "for order " + str(self.order.id)
+        return  str(self.chair) + " for order " + str(self.order.trackID)
 
 
 class ParkingInOrder(models.Model):
@@ -318,7 +337,7 @@ class ParkingInOrder(models.Model):
     order = models.ForeignKey(Order)
 
     def __str__(self):
-        return "parking" + str(self.parking.id) + "for order " + str(self.order.id)
+        return  str(self.parking) + " for order " + str(self.order.trackID)
 
 
 class FoodCook(models.Model):

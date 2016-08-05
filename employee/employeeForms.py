@@ -109,10 +109,10 @@ def get_all_warehouse():
 
 
 class MaterialForm(forms.Form):
-    material = forms.ChoiceField(widget=forms.Select, choices=get_all_materials())
-    wareHouse = forms.ChoiceField(widget=forms.Select, choices=get_all_warehouse())
-    value = forms.IntegerField()
-    expire_date = forms.DateField()
+    material = forms.ChoiceField(widget=forms.Select, choices=get_all_materials() , label='ماده اولیه')
+    wareHouse = forms.ChoiceField(widget=forms.Select, choices=get_all_warehouse() , label='انبار')
+    value = forms.IntegerField(label='مقدار')
+    expire_date = forms.DateField(label='تاریخ انقضا')
 
 
 class ReportForm(forms.Form):

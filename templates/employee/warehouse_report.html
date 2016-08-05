@@ -45,7 +45,7 @@
 </div>
 
 {% if result != 'null' and result != 'first' %}
-    <div class="my_form">
+    <div class="my_form" id="rtol">
 
     <table>
         <tr>
@@ -62,13 +62,13 @@
         {% endfor %}
     </table>
     </div>
-    <div class="my_form">
+    <div class="my_form" id="rtol">
     آدرس انبار :
     <br>
     {{ address }}
     </div>
     {% elif result != 'first' %}
-    <div class="my_form">
+    <div class="my_form" id="rtol">
    موجودی در انبار نیست.
     <br>
         آدرس انبار :

@@ -1,121 +1,11 @@
-# from django.shortcuts import render, redirect
-# from user.forms import RegisterForm, LoginForm
-# from django.contrib.auth import login as django_login, logout as django_logout,authenticate
-# from django.http.response import HttpResponseRedirect
-# # from restaurant.models import MyUser
-# # from restaurant.models import User, Employee
-# # from django.contrib.auth.decorators import login_required
-#
-# '''
-# # @login_required(login_url='/user/login/')
-# def view_profile(request):
-#     user_id = request.user.id
-#     try:
-#         user = User.objects.get(pk=user_id)
-#         return render(request, 'user/profile_user.html', {'user': user})
-#
-#     except User.DoesNotExist:
-#         # try:
-#         #     employee = Employee.objects.get(pk=user_id)
-#         #     return render(request, 'user/profile_employee.html', {'employee': employee})
-#         # except employee.DoesNotExist:
-#         redirect("/")
-# '''
-#
-# '''
-# def register(request):
-#     if request.method == 'POST':
-#         form = RegisterForm(data=request.POST)
-#         if form.is_valid():
-#             form.save()
-#             # TODO: say to manager to activate account
-#             return redirect("user/regOK.html")
-#     else:
-#         form = RegisterForm()
-#     return render(request, "user/register.html", {'form': form})
-# '''
-#
-# '''
-# def register(request):
-#     if request.method == "POST":
-#         form = RegisterForm(request.POST)
-#         if form.is_valid():
-#             del form.cleaned_data['pass_conf']
-#             # if form.cleaned_data['isHotelier']:
-#             #     del form.cleaned_data['isHotelier']
-#             #     user = Hotelier(**(form.cleaned_data))
-#             #     user.set_password(form.cleaned_data['password'])
-#             #     user.save()
-#             # else:
-#             #     del form.cleaned_data['isHotelier']
-#             user = MyUser(form.cleaned_data)
-#             user.set_password(form.cleaned_data['password'])
-#             user.is_active = True
-#             user.save()
-#             # send_activation_link(user)
-#         return render(request, 'user/regOK.html')
-#     else:
-#         form = RegisterForm()
-#     return render(request, "user/register.html", {'form': form})
-# '''
-# '''
-# def login(request):
-#     # if not request.user.is_anonymous:
-#     #     django_logout(request)
-#     # redirect_to = request.REQUEST.get('next', '')
-#     # if not redirect_to:
-#     #     redirect_to = "/simorgh/home/"
-#     #
-#     #
-#     # # forgetForm = ForgotForm()
-#     # message = ""
-#     if request.method == "POST":
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data["username"]
-#             password = form.cleaned_data["password"]
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 my_user = MyUser.objects.get(pk=user.id)
-#                 if my_user.active:
-#                     django_login(request, user)
-#                     return HttpResponseRedirect("/regOK.html")
-#                 else:
-#                     form = LoginForm()
-#                     # message = "حساب شما غیر فعال است."
-#             else:
-#                 form = LoginForm()
-#                 # message = "نام کاربری یا گذرواژه شما اشتباه است."
-#     else:
-#         form = LoginForm()
-#     return render(request, "user/login.html", {'form': form})
-# '''
-#
-# '''
-# def login(request):
-#     if request.POST:
-#         form = LoginForm(request.POST or None)
-#         if form.is_valid():
-#             user = form.login(request)
-#             if user:
-#                 django_login(request, user)
-#                 return HttpResponseRedirect("/regOK.html")
-#     else:
-#         form = LoginForm()
-#     return render(request, 'user/login.html', {'form': form})
-# '''
-#
-#
-# def logout(request):
-#     django_logout(request)
-#     return redirect('/')
-
 from django.shortcuts import render, redirect
+from django import forms
 # from user.forms import RegisterForm, LoginForm
-from user.forms import UserForm, MyUserForm, LoginForm, EditProfileForm, EditUserNameForm, EditPasswordForm
-from django.contrib.auth import login as django_login, logout as django_logout ,authenticate
+from restaurant.views import index
+from user.forms import UserForm, MyUserForm, LoginForm, EditUserForm, EditUserNameForm, EditPasswordForm, EditMyUserForm
+from django.contrib.auth import login as django_login, logout as django_logout, authenticate
 from django.http.response import HttpResponseRedirect
-from restaurant.models import MyUser
+from restaurant.models import MyUser, DeliveryMan, Clerk, Waiter, WarehouseMan, ParkingMan, Cook, Employee
 from django.contrib.auth.models import User
 # from restaurant.models import User, Employee
 from django.contrib.auth.decorators import login_required
@@ -193,30 +83,32 @@ def register(request):
         upf = MyUserForm(request.POST, prefix='userprofile')
         if uf.is_valid() * upf.is_valid():
             user = User.objects.create_user(username=uf.cleaned_data['username'], password=uf.cleaned_data['password'],
-                                            first_name=uf.cleaned_data['first_name'], last_name=uf.cleaned_data['last_name'],
+                                            first_name=uf.cleaned_data['first_name'],
+                                            last_name=uf.cleaned_data['last_name'],
                                             email=uf.cleaned_data['email'])
+            user.is_active = False
             user.save()
             # userprofile = User.objects.get(id=user.id).myuser
 
 
 
-        #     userprofile = user.userprofile
-        # except UserProfile.DoesNotExist, e:
-        # userprofile = UserProfile(user=user)
-        # userprofile.save()
+            #     userprofile = user.userprofile
+            # except UserProfile.DoesNotExist, e:
+            # userprofile = UserProfile(user=user)
+            # userprofile.save()
 
             # userprofile = upf.save(commit=False)
             # userprofile.user = user
 
-            userprofile = MyUser(user=user, phone_number=upf.cleaned_data['phone_number'])
+            userprofile = MyUser(user=user, phone_number=upf.cleaned_data['phone_number'],
+                                 address=upf.cleaned_data['address'])
             # userprofile.user.id = request.user.id
             userprofile.save()
             return render(request, 'user/regOK.html')
     else:
         uf = UserForm(prefix='user')
         upf = MyUserForm(prefix='userprofile')
-    return render(request, 'user/register.html', {'userform': uf, 'userprofileform':upf})
-
+    return render(request, 'user/register.html', {'userform': uf, 'userprofileform': upf})
 
 
 def login(request):
@@ -228,7 +120,7 @@ def login(request):
     #
     #
     # # forgetForm = ForgotForm()
-    # message = ""
+    message = ""
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -237,25 +129,44 @@ def login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 findeduser = User.objects.get(pk=user.id)
-                # my_user = MyUser.objects.get(user=findeduser)
+                my_user = MyUser.objects.get(user=findeduser)
+
                 if findeduser.is_active:
-                    if findeduser.is_staff:
-                        django_login(request, user)
-                        return HttpResponseRedirect("user/regOK1.html")
+                    if Employee.objects.filter(user=my_user).count() > 0:
+                        emp = Employee.objects.get(user=my_user)
+                        if Cook.objects.filter(cook_id=emp).count() > 0:
+                            django_login(request, user)
+                            return render(request, template_name="employee/cook.html")
+                        elif DeliveryMan.objects.filter(delivery_man_id=emp).count() > 0:
+                            django_login(request, user)
+                            return render(request, template_name="employee/deliveryman.html")
+                        elif Clerk.objects.filter(clerk_id=emp).count() > 0:
+                            django_login(request, user)
+                            return render(request, template_name="employee/clerk.html")
+                        elif Waiter.objects.filter(waiter_id=emp).count() > 0:
+                            django_login(request, user)
+                            return render(request, template_name="employee/waiter.html")
+                        elif WarehouseMan.objects.filter(warehouse_man_id=emp).count() > 0:
+                            django_login(request, user)
+                            return render(request, template_name="employee/warehouseman.html")
+                        elif ParkingMan.objects.filter(parking_man_id=emp).count() > 0:
+                            django_login(request, user)
+                            return render(request, template_name="employee/parkingman.html")
                     else:
                         django_login(request, user)
-                        return HttpResponseRedirect("user/regOK.html")
+                        return redirect('/restaurant/')
                 else:
                     form = LoginForm()
-                    print("account deactive")
-                #     # message = "حساب شما غیر فعال است."
+                    # raise forms.ValidationError('.حساب کاربری شما غیرفعال است.')
+                    message = ".حساب کاربری شما غیرفعال است."
             else:
                 form = LoginForm()
-                print("pass or username wrong")
-                # message = "نام کاربری یا گذرواژه شما اشتباه است."
+                # print("pass or username wrong")
+                # raise forms.ValidationError('نام کاربری یا گذرواژه شما اشتباه است..')
+                message = "نام کاربری یا گذرواژه شما اشتباه است."
     else:
         form = LoginForm()
-    return render(request, "user/login.html", {'form': form})
+    return render(request, "user/login.html", {'form': form, 'message': message})
 
 
 @login_required(login_url='/user/login/')
@@ -263,7 +174,7 @@ def view_profile(request):
     user_id = request.user.id
     try:
         user1 = User.objects.get(pk=user_id)
-        myuser=MyUser.objects.get(user=request.user)
+        myuser = MyUser.objects.get(user=request.user)
         return render(request, 'user/profile_user.html', {'myuser': myuser})
 
     except User.DoesNotExist:
@@ -294,23 +205,32 @@ def edit_profile(request):
 @login_required()
 def edit_profile(request):
     user = request.user
-    form = EditProfileForm(request.POST or None, initial={'first_name': user.first_name, 'last_name': user.last_name,
-                                                          'email': user.email})
+    myuser = MyUser.objects.get(user=user)
+    form_user = EditUserForm(request.POST or None, initial={'first_name': myuser.user.first_name,
+                                                            'last_name': myuser.user.last_name,
+                                                            'email': myuser.user.email})
+    form_myuser = EditMyUserForm(request.POST or None, initial={'phone_number': myuser.phone_number,
+                                                                'address': myuser.address})
     if request.method == 'POST':
         # form = EditProfileForm(request.POST)
-        if form.is_valid():
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            user.email = form.cleaned_data['email']
+        if form_user.is_valid() * form_myuser.is_valid():
+            user.first_name = form_user.cleaned_data['first_name']
+            user.last_name = form_user.cleaned_data['last_name']
+            user.email = form_user.cleaned_data['email']
+            myuser.phone_number = form_myuser.cleaned_data['phone_number']
+            myuser.address = form_myuser.cleaned_data['address']
             user.save()
+            myuser.user = user
+            myuser.save()
             return HttpResponseRedirect('viewProfile')
             # return render(request, "thanks.html", {'message': 'تغییرات با موفقیت ذخیره شد.', 'redir': '/simorgh/profile/'})
-        # else:
-        #     print("valid nist")
-        #     return HttpResponseRedirect()
+            # else:
+            #     print("valid nist")
+            #     return HttpResponseRedirect()
     # else:
     #     form = EditProfileForm(initial=init)
-    return render(request, 'user/profile_edit.html', {"form": form, "user": user})
+    return render(request, 'user/profile_edit.html', {"form_user": form_user, "form_myuser": form_myuser,
+                                                      "myuser": myuser})
 
 
 @login_required()
@@ -324,9 +244,9 @@ def edit_username(request):
             user.save()
             return HttpResponseRedirect('viewProfile')
             # return render(request, "thanks.html", {'message': 'تغییرات با موفقیت ذخیره شد.', 'redir': '/simorgh/profile/'})
-        # else:
-        #     print("valid nist")
-        #     return HttpResponseRedirect()
+            # else:
+            #     print("valid nist")
+            #     return HttpResponseRedirect()
     # else:
     #     form = EditProfileForm(initial=init)
     return render(request, 'user/username_edit.html', {"form": form, "user": user})
@@ -343,9 +263,9 @@ def edit_password(request):
             user.save()
             return HttpResponseRedirect('viewProfile')
             # return render(request, "thanks.html", {'message': 'تغییرات با موفقیت ذخیره شد.', 'redir': '/simorgh/profile/'})
-        # else:
-        #     print("valid nist")
-        #     return HttpResponseRedirect()
+            # else:
+            #     print("valid nist")
+            #     return HttpResponseRedirect()
     # else:
     #     form = EditProfileForm(initial=init)
     return render(request, 'user/username_edit.html', {"form": form, "user": user})

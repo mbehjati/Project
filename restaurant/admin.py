@@ -12,7 +12,7 @@ from restaurant.models import User, Employee, Cook, ParkingMan, WarehouseMan, Wa
 def send_mail_to_users(modeladmin, request, queryset):
     mail_list = []
     for user in queryset:
-        mail_list.append(user.email)
+        mail_list.append(user.user.email)
     all_emails = Email.objects.all()
     for email in all_emails:
         if email.to_be_send:
@@ -25,7 +25,7 @@ send_mail_to_users.short_description = "send mail"
 def send_discount_code_to_users(modeladmin, request, queryset):
     mail_list = []
     for user in queryset:
-        mail_list.append(user.email)
+        mail_list.append(user.user.email)
     all_discount_code = DiscountCode.objects.all()
     for discount_code in all_discount_code:
         if discount_code.to_be_send:
@@ -121,7 +121,7 @@ class AdminCommentEmp(admin.ModelAdmin):
 
 @admin.register(FoodType)
 class AdminFoodType(admin.ModelAdmin):
-    exclude = ('rate', 'image')
+    exclude = ( 'image',)
     pass
 
 

@@ -45,7 +45,7 @@
 
 
 {% if order != 'first'  and order != 'null'%}
-<div class="my_form" >
+<div class="my_form" id="rtol" >
     <table>
         <tr>
             <td> شماره پیگیری سفارش </td>
@@ -74,18 +74,18 @@
     </table>
 </div>
 
-<div class="my_form">
+<div class="my_form" id="rtol">
     لیست غذا ها :
 <br>
 
     <table>
         <tr>
-            {% for data in foods  %} {{ data.food_type.name}} ,{{ data.number }} {% endfor %}
+            {% for data in foods  %} {{ data.food_type.name}}  {{ data.number }}   عدد {% endfor %}
         </tr>
     </table>
 </div>
 
-<div class="my_form">
+<div class="my_form" id="rtol">
     پارکینگ :
 <br>
 
@@ -101,7 +101,7 @@
     </table>
 </div>
 
-<div class="my_form">
+<div class="my_form" id="rtol">
     صندلی :
 <br>
 

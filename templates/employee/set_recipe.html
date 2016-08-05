@@ -90,8 +90,8 @@
 
     <input type="number" id = "material_value">
 
-    {% for food in materials %}
-        <input type="hidden" name={{ food.name }}>
+    {% for m in materials %}
+        <input type="hidden" name='{{ m.name }}'>
     {% endfor %}
 
     <input type="hidden" id="show_material" >
@@ -99,7 +99,7 @@
 
     </div>
 
-    <div class="my_form">
+    <div class="my_form" id="rtol">
 {#    {% if   %} {% endif %}#}
     <div class="guide2">
 
@@ -116,7 +116,7 @@
 
 </table >
 </div>
-    <div class="my_form">
+    <div class="my_form" id="rtol">
          {% csrf_token %}
     {% form form=form %}
 
