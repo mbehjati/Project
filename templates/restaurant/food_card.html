@@ -1,0 +1,55 @@
+{% load staticfiles %}
+{% for food in menu %}
+    <div class="branch-food-card mdl-card mdl-shadow--4dp">
+        <div class="branch-food-card-media mdl-card__media">
+            <img src="{{ food.image.url }}" border="0"
+                 alt="">
+        </div>
+        <div id="{{ food.name }}-div" class="mdl-card__supporting-text " style="font-size: medium; height: 2.5vw">
+            <strong style="float: right">{{ food.name }}</strong>
+{#            <img src="{% static "restaurant/images/salad.png" %}" style="width: 2vw;float: right;margin-right: 5%;">#}
+            <strong style="float: left">{{ food.price }}تومان</strong>
+            <br>
+            {% for fo,of in dic %}
+                {% if fo == food.name and of%}
+                <span style="color: #aaaaaa;font-size: small; float: right" >توصیه می‌شود با:
+                    {% for offer in of %}
+                        {{ offer }},
+                    {% endfor %}
+                    </span>
+                {% else %}
+                    <span></span>
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+{#        <div class="mdl-card__supporting-text " style="font-size: medium">#}
+{#            <strong style="float: right">{{ food.name }}</strong>#}
+{#            <img id = "ehem" src="{% static "restaurant/images/salad.png" %}" style="width: 2vw;float: right;margin-right: 5%;">#}
+{#            <span class="mdl-tooltip" for = "ehem">salam</span>#}
+{#            <strong style="float: left">{{ food.price }}تومان</strong>#}
+
+{#        </div>#}
+        <div class="mdl-card__actions mdl-card--border">
+
+            <button id="{{ food.name }}"
+                    class="branch-food-card-btn mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+            >
+
+                افزودن به سبد خرید
+
+            </button>
+            <span></span>
+            <span class="material-icons" style="margin-top: 1%">shopping_basket</span>
+        </div>
+{#        TODO: if pishnahad sarAshpaz bud bezaresh!#}
+{#    <div class="mdl-card__menu">#}
+{#    <button id="xml" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">#}
+{#      <i class="material-icons"  style="color: white">thumb_up</i>#}
+{#    </button>#}
+{##}
+{#    </div>#}
+
+    </div>
+{% endfor %}

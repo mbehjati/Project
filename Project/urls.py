@@ -25,7 +25,7 @@ from employee import viewsForEmployee
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^search/', views.serach),
+    url(r'^search/', views.search),
     url(r'^restaurant/', include('restaurant.urls')),
     # url(r'^$', views.index,name = 'index')
     url(r'^employee/authentication/check',viewsForEmployee.authentication_check),
