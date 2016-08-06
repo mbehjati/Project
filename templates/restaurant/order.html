@@ -107,8 +107,10 @@ width: 24px;">
                 {#                    <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">#}
                 {#                </label><br>#}
 
-                <label for="date_picker">تاریخ دریافت سفارش</label>
+                <label for="date_picker">تاریخ شروع دریافت سفارش‌ها</label>
                 <input id="date_picker" type="date" name="date"><br>
+                <label for="time_picker">‌ساعت دریافت سفارش‌ها</label>
+                <input id="time_picker" type="time" name="time"><br>
                 <label for="week_picker">تعداد هفته‌ها</label>
                 <input id="week_picker" type="number" name="week"><br>
                 <label for="day-picker">روزهای دریافت سفارش</label>
@@ -122,25 +124,25 @@ width: 24px;">
                 {#                    <option value="fri">جمعه</option>#}
                 {#                </select><br>#}
                 <br>
-                <input id="sat" type="checkbox" name="ingredients[]" value="sat"/>
+                <input id="sat" type="checkbox" name="days[]" value="1"/>
                 <label for="sat">شنبه</label>
 {#                <br/>#}
-                <input id="sun" type="checkbox" name="ingredients[]" value="sun"/>
+                <input id="sun" type="checkbox" name="days[]" value="2"/>
                 <label for="sun">یک‌شنبه</label>
 {#                <br/>#}
-                <input id="mon" type="checkbox" name="ingredients[]" value="mon"/>
+                <input id="mon" type="checkbox" name="days[]" value="3"/>
                 <label for="mon">دوشنبه</label>
 {#                <br/>#}
-                <input id="tue" type="checkbox" name="ingredients[]" value="tue"/>
+                <input id="tue" type="checkbox" name="days[]" value="4"/>
                 <label for="tue">سه‌شنبه</label>
 {#            <br>#}
-                <input id="wed" type="checkbox" name="ingredients[]" value="wed"/>
+                <input id="wed" type="checkbox" name="days[]" value="5"/>
                 <label for="wed">چهارشنبه</label>
 {#                <br>#}
-                <input id="thu" type="checkbox" name="ingredients[]" value="thu"/>
+                <input id="thu" type="checkbox" name="days[]" value="6"/>
                 <label for="thu">پنج‌شنبه</label>
 {#                <br>#}
-                <input id="fri" type="checkbox" name="ingredients[]" value="fri"/>
+                <input id="fri" type="checkbox" name="days[]" value="7"/>
                 <label for="fri">جمعه</label>
                 <br>
                 <input id="submit_btn" type="submit"

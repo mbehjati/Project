@@ -12,7 +12,7 @@ from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 
 from employee.order import submit_order, submit_order_customer, calculate_price, confirm_order, food_suggest, \
-    chef_suggest
+    chef_suggest, submit_periodic_order
 from restaurant.models import FoodType
 from .forms import *
 from .models import *
@@ -50,28 +50,6 @@ from .forms import NameForm, SearchForm
 from restaurant.models import FoodType
 from .forms import NameForm, SearchForm
 
-
-def order(request):
-    # if this is a POST request we need to process the form data
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = OrderForm(request.POST)
-        salam = request.POST.get('branch', '')
-        # check whether it's valid:
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            branch = form.cleaned_data['branch']
-            menuinbranch = branch.menu_set.all()
-            # Order.objects.get().
-            # redirect to a new URL:
-            return HttpResponse(salam)
-            # return render(request, "restaurant/search.html", context)
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = OrderForm()
-
-    return render(request, 'restaurant/order.html', {'form': form})
 
 
 def food_is_type(food, t):
@@ -162,15 +140,17 @@ def search(request):
 
 @login_required(login_url='/user/login')
 def show_branch_menu(request, branch_id):
-    #TODO food recom and chef
     recom = food_suggest()
     chef = chef_suggest()
+    # chef = FoodType.objects.filter(pk = 'پیتزا مارگاریتا')
+    # print(chef)
 
     branch = get_object_or_404(Branch, pk=branch_id)
     user = request.user.id
     user_obj = User.objects.get(pk=user)
     myuser = MyUser.objects.get(user=user_obj)
-    menu = branch.menu.foodinmenu_set.values_list('food_type', flat=True)
+    #TODO: added filter here but yet so on check it!
+    menu = branch.menu.foodinmenu_set.filter(can_cook=True).values_list('food_type', flat=True)
     a = []
     for f in menu:
         obj = get_object_or_404(FoodType, pk=f)
@@ -197,9 +177,8 @@ def show_branch_menu(request, branch_id):
         print(dic)
     return render(request, 'restaurant/branchm.html', {'menu': a, 'branch_id': branch_id, 'dic': dic , 'recom':recom, 'chef':chef})
 
-
+@login_required(login_url='/user/login')
 def order(request):
-    # TODO food recom and chef
     recom = food_suggest()
     chef = chef_suggest()
     user = request.user.id
@@ -211,8 +190,6 @@ def order(request):
     #     obj = get_object_or_404(FoodType, pk=f)
     #     a.append(obj)
     if request.method == 'POST':
-        # order = Order(is_changable=True, is_permanent=False, has_child=False, branch_id = branch_id, place=True, trackID=1)
-        ord = Order()
         food_dict = []
         for foodt in menu:
             esm = foodt.name
@@ -222,12 +199,19 @@ def order(request):
 
         date = request.POST['date']
         time = request.POST['time']
-        submit_order_customer(myuser, branch, date, time, food_dict)
+        week_num = request.POST['week']
+        days = request.POST.getlist('days[]')
+
+        # print(str_days)
+        print(date)
+        d=datetime.strptime(date, '%Y-%m-%d')
+        print(d)
+        submit_periodic_order(d, time , days, week_num, food_dict, myuser)
         return redirect('/user/orders')
     else:
         dic = []
         for foodo in menu:
             off = FoodOffer.objects.filter(food=foodo).values_list('offer', flat=True)
             dic.append((foodo, off))
-        print(dic)
+        # print(dic)
     return render(request, 'restaurant/order.html', {'menu': menu, 'dic': dic, 'recom': recom, 'chef':chef})

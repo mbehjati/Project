@@ -4,7 +4,14 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'restaurant/../../restaurant/static/user/order_detail.css' %}">
     <div class="order-details-page">
-        <h4>سفارش {{ order.trackID }}</h4>
+        <h4>سفارش
+            {% if order.periodic %}
+                                        دوره‌ای
+                                    {% else %}
+                                        عادی
+                                    {% endif %}
+            {{ order.trackID }}
+        </h4>
         <p>
             شعبه:
             {{ order.branch_id }}
@@ -38,6 +45,13 @@
                         <td>{{ total }}</td>
                     </tr>
                 {% endfor %}
+                <hr>
+                <tr>
+                        <td>مجموع</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>{{ p }}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

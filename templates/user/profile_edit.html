@@ -6,11 +6,12 @@
 </head>
 <body>
 {% include 'material/includes/material_css.html' %}
+{% load staticfiles %}
 <script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
 {% include 'material/includes/material_js.html' %}
 {% load material_form %}
-<h3> {{ myuser.user.username }}</h3>
-<form action="" method="post">
+<h3 style="font-family: 'X Yekan'; margin-top: 5%;text-align: center;"> {{ myuser.user.username }}</h3>
+<form action="" method="post" style="width: 50%;margin: auto;margin-top:5%; margin-bottom: 5%">
     {% csrf_token %}
     {{form_user.as_p}}
     {{form_myuser.as_p}}

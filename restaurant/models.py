@@ -197,7 +197,7 @@ class Order(models.Model):
     place = models.BooleanField(default='True', choices=((0, 'منزل'),
                                                          (1, 'حضوری'),))
     trackID = models.IntegerField(primary_key=True)
-    branch = models.ForeignKey(Branch)
+    branch = models.ForeignKey(Branch,null=True)
     user = models.ForeignKey(MyUser , null=True)
     date = models.DateField()
     time = models.TimeField()

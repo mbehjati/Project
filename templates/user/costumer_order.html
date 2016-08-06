@@ -50,14 +50,22 @@
                         {% for order,p in orders %}
                             <tr>
                                 <td>
+                                    {% if not order.is_permanent %}
                                     <button class="cancel mdl-button mdl-js-button mdl-button--colored"
                                             id="{{ order.trackID }}"><i
                                             class="material-icons">cancel</i>
                                     </button>
+                                    {%endif%}
                                 </td>
                                 <td class="mdl-data-table__cell--non-numeric">{{ order.trackID }}</td>
                                 <td class="mdl-data-table__cell--non-numeric">{{ order.date }}</td>
-                                <td class="mdl-data-table__cell--non-numeric">عادی</td>
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    {% if order.periodic %}
+                                        دوره‌ای
+                                    {% else %}
+                                        عادی
+                                    {% endif %}
+                                </td>
                                 <td class="mdl-data-table__cell--non-numeric">
                                    {{ p }}
                                 </td>
@@ -101,7 +109,6 @@
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">کد</th>
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">تاریخ</th>
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">نوع</th>
-                                                            {# TODO: calculate price #}
                             <th class="mdl-data-table__cell--non-numeric" style="font-size: medium">مبلغ</th>
                             <th class="mdl-data-table__cell--non-numeric"
                                 style="font-size: medium;text-align: center;">جزییات

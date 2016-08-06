@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django import forms
 # from user.forms import RegisterForm, LoginForm
+from employee.order import confirm_periodic_order
 from restaurant.views import *
 from user.forms import UserForm, MyUserForm, LoginForm, EditUserForm, EditUserNameForm, EditPasswordForm, EditMyUserForm
 from django.contrib.auth import login as django_login, logout as django_logout, authenticate
@@ -360,6 +361,7 @@ def order_detail(request, order_id):
         order_food.append((foodt, food.number, foodt.price * food.number))
 
     # TODO : show total price if you had time
+    p = calculate_price(requested_order)
     if (request.method == 'POST'):
         result = request.POST
         if result['discount'] == '':
@@ -377,9 +379,12 @@ def order_detail(request, order_id):
             parking = 0
         else:
             parking = int(result['parking'] )
-        confirm_order(requested_order, discount, has_child, place, chair, parking)
+        if requested_order.periodic:
+            confirm_order(requested_order, discount, has_child, place, chair, parking)
+        else:
+            confirm_periodic_order(requested_order)
         return redirect('/user/orders')
-    return render(request, 'user/order_detail.html', {'order': requested_order, 'order_food': order_food})
+    return render(request, 'user/order_detail.html', {'order': requested_order, 'order_food': order_food , 'p':p})
 
 
 def comment(request, order_id):

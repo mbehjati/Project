@@ -231,20 +231,24 @@ def submit_periodic_order(start_date, time, weekdays, number_of_weeks, food_dic,
     order = Order(trackID=trackID, is_changable=True, is_permanent=False, branch=branch, date=start_date, time=
     time, place=True, user=user)
 
-    p_order = PeriodicOrder(weeks_num=weekdays, number_of_weeks=number_of_weeks)
-
+    str_days = ','.join([str(i) for i in weekdays])
+    p_order = PeriodicOrder(weeks_num=str_days, number_of_weeks=number_of_weeks)
+    p_order.save()
     order.periodic = p_order
     order.save()
     # TODO weekdays format
-    weekdays_arr = weekdays.split(',')
-
+    weekdays_arr = weekdays
+    print(weekdays)
     for day in weekdays_arr:
         d = start_date
-        for i in range(0, number_of_weeks):
+        for i in range(0, int(number_of_weeks)):
+            print(d.weekday())
+            # if( d.weekday() != int(day))
             while d.weekday() != int(day):
-                d += datetime.timedelta(1)
+                d += datetime.timedelta(days=1)
+                print(d)
             for key, val in food_dic:
-                food = Food(food_type=key, val=val, order=order)
+                food = Food(food_type=key, number=val, order=order,status=False)
                 food.save()
 
 
