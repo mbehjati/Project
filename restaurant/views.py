@@ -198,3 +198,36 @@ def show_branch_menu(request, branch_id):
     return render(request, 'restaurant/branchm.html', {'menu': a, 'branch_id': branch_id, 'dic': dic , 'recom':recom})
 
 
+def order(request):
+    # TODO food recom and chef
+    recom = food_suggest()
+    chef = chef_suggest()
+    user = request.user.id
+    user_obj = User.objects.get(pk=user)
+    myuser = MyUser.objects.get(user=user_obj)
+    menu = FoodType.objects.all()
+    # a = []
+    # for f in menu:
+    #     obj = get_object_or_404(FoodType, pk=f)
+    #     a.append(obj)
+    if request.method == 'POST':
+        # order = Order(is_changable=True, is_permanent=False, has_child=False, branch_id = branch_id, place=True, trackID=1)
+        ord = Order()
+        food_dict = []
+        for foodt in menu:
+            esm = foodt.name
+            if not request.POST[esm] == "":
+                number = int(request.POST[esm])
+                food_dict.append((foodt, number))
+
+        date = request.POST['date']
+        time = request.POST['time']
+        submit_order_customer(myuser, branch, date, time, food_dict)
+        return redirect('/user/orders')
+    else:
+        dic = []
+        for foodo in menu:
+            off = FoodOffer.objects.filter(food=foodo).values_list('offer', flat=True)
+            dic.append((foodo, off))
+        print(dic)
+    return render(request, 'restaurant/order.html', {'menu': menu, 'dic': dic, 'recom': recom})

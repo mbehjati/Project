@@ -222,7 +222,7 @@ def edit_profile(request):
             user.save()
             myuser.user = user
             myuser.save()
-            return HttpResponseRedirect('viewProfile')
+            return HttpResponseRedirect('/user/profile')
             # return render(request, "thanks.html", {'message': 'تغییرات با موفقیت ذخیره شد.', 'redir': '/simorgh/profile/'})
             # else:
             #     print("valid nist")
@@ -242,7 +242,7 @@ def edit_username(request):
         if form.is_valid():
             user.username = form.cleaned_data['username']
             user.save()
-            return HttpResponseRedirect('viewProfile')
+            return HttpResponseRedirect('/user/profile')
             # return render(request, "thanks.html", {'message': 'تغییرات با موفقیت ذخیره شد.', 'redir': '/simorgh/profile/'})
             # else:
             #     print("valid nist")
@@ -261,7 +261,7 @@ def edit_password(request):
         if form.is_valid():
             user.set_password(form.cleaned_data['new_pass'])
             user.save()
-            return HttpResponseRedirect('viewProfile')
+            return HttpResponseRedirect('/user/profile')
             # return render(request, "thanks.html", {'message': 'تغییرات با موفقیت ذخیره شد.', 'redir': '/simorgh/profile/'})
             # else:
             #     print("valid nist")
@@ -379,7 +379,6 @@ def order_detail(request, order_id):
             parking = int(result['parking'] )
         confirm_order(requested_order, discount, has_child, place, chair, parking)
         return redirect('/user/orders')
-        # TODO: redirect to orders page!
     return render(request, 'user/order_detail.html', {'order': requested_order, 'order_food': order_food})
 
 
@@ -431,8 +430,7 @@ def comment(request, order_id):
                 #     len = Comment.objects.filter(food=food).__len__()
                 #     rate = FoodType.objects.filter(pk=food)[0].rate
                 #     rate = (rate * (len - 1) + int(result[food + "-rate"])) / len;
-        # TODO: redirect
-        return HttpResponse("ثبت شد")
+        return redirect('/user/orders')
 
     return render(request, 'user/order_comment.html',
                   {'order': requested_order, 'foods': foods, 'delivery': delivery, 'waiters': waiters})

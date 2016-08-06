@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^branch', views.branch, name='branch'),
     url(r'^menu/(?P<food_name>.+)/', views.food, name='food'),  # TODO: fix the url some way!
     url(r'^menu', views.menu, name = 'menu'),
-    url(r'^order', views.order, name = 'order'),
+    url(r'^order', views.order, name='order'),
     url(r'^search', views.search, name='search'),
 
 ]
