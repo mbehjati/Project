@@ -1,5 +1,5 @@
 from enum import unique
-
+from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.core.validators import RegexValidator
 from django.db import models
@@ -11,7 +11,20 @@ class GeneralUser(models.Model):
     # TODO: not a model!
 
 
-class User(models.Model):
+class MyUser(models.Model):
+    user = models.OneToOneField(User)
+    phone_number = models.CharField(max_length=11)
+    is_active = False
+    # USERNAME_FIELD = 'username'
+    # i=user.id
+    # address = models.TextField()
+
+    def __str__(self):
+        return self.user.username
+
+
+'''
+class MyUser(models.Model):
     name = models.CharField(max_length=50)
     username = models.CharField(max_length=20, primary_key=True)
     password = models.CharField(max_length=8)
@@ -22,6 +35,7 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+'''
 
 
 class Warehouse(models.Model):
@@ -56,6 +70,8 @@ class Branch(models.Model):
 
 
 class Employee(models.Model):
+    user = models.OneToOneField(MyUser, default='1')
+    # MyUser.username =  models.
     name = models.CharField(max_length=50)
     employee_id = models.IntegerField(primary_key=True)
     branch = models.ForeignKey(Branch)
@@ -93,8 +109,6 @@ class ParkingMan(models.Model):
     parking_man_id = models.OneToOneField(Employee, primary_key=True)
 
 
-
-
 class Waiter(models.Model):
     waiter_id = models.OneToOneField(Employee, primary_key=True)
 
@@ -116,8 +130,8 @@ class CommentEmp(models.Model):
     text = models.TextField()
     state = models.BooleanField()
     date = models.DateTimeField()
-    user = models.ForeignKey(User)
-    employee = models.ForeignKey(Employee)
+    user = models.ForeignKey(MyUser, related_name="userr")
+    employee = models.ForeignKey(Employee, related_name="emp")
 
 
 class Order(models.Model):
@@ -125,7 +139,7 @@ class Order(models.Model):
     is_changable = models.BooleanField()
     trackID = models.IntegerField()
     branch = models.ForeignKey(Branch)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(MyUser)
     date = models.DateField()
     time = models.TimeField()
 
@@ -156,7 +170,7 @@ class FoodType(models.Model):
     def __str__(self):
         return str(self.name)
         # image = models.ImageField()
-    image = models.ImageField(upload_to='food',null=True)
+    # image = models.ImageField(upload_to='food',null=True)
 
 
 class TasteType(models.Model):
@@ -215,7 +229,7 @@ class Comment(models.Model):
     text = models.TextField()
     state = models.BooleanField()
     date = models.DateTimeField()
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(MyUser)
     food = models.ForeignKey(FoodType)
 
 
