@@ -7,7 +7,8 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
 from restaurant.models import Branch, Order, FoodType, Food, Cook, CookAbility, DeliveryMan, OrderDeliveryMan, Employee, \
-    Waiter, OrderWaiter, FoodCook, MyUser, Setting, PeriodicOrder, Chair, ChairInOrder, Parking, ParkingInOrder
+    Waiter, OrderWaiter, FoodCook, MyUser, Setting, PeriodicOrder, Chair, ChairInOrder, Parking, ParkingInOrder, \
+    FoodInMenu
 
 
 def choose_cook(cooks):
@@ -99,6 +100,26 @@ def submit_order_customer(user, branch, date, time, dic):
         food.save()
 
 
+def update_menu(cook , food):
+    foods = FoodCook.objects.filter(cook=cook , food=food)
+    sum = 0
+    for f in foods:
+        sum += f.food.number
+    ability =CookAbility.objects.get(cook=cook , ability=food.food_type)
+    if sum > ability.number :
+        menu = Employee.objects.get(employee_id=cook.cook_id).branch.menu
+        f_in_menu = FoodInMenu.objects.get(food_type=food.food_type , menu=menu)
+        f_in_menu.can_cook = False
+        f_in_menu.save()
+    else:
+        menu = Employee.objects.get(employee_id=cook.cook_id).branch.menu
+        f_in_menu = FoodInMenu.objects.get(food_type=food.food_type, menu=menu)
+        f_in_menu.can_cook = True
+        f_in_menu.save()
+
+    pass
+
+
 def confirm_order(order, discount, has_child, place, chair, parking):
     order.is_permanent = True
     order.is_changable = False
@@ -119,6 +140,7 @@ def confirm_order(order, discount, has_child, place, chair, parking):
         cook = choose_cook(cooks)
         foodcook = FoodCook(cook=cook, food=food, done=False)
         foodcook.save()
+        update_menu(cook,food)
 
     ch_num= 0
     for ch in Chair.objects.all():

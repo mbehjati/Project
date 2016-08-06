@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from employee import order
+from employee.order import update_menu
 from restaurant import models
 
 # Create your views here.
@@ -190,6 +191,7 @@ def check_done_foods(picked):
         d.done = True
         finished = True
         d.save()
+        update_menu(d.cook,d.food)
         for o in FoodCook.objects.all():
             if o.food.order == order and o.done == False:
                 finished = False

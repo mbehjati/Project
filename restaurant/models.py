@@ -232,6 +232,7 @@ class Food(models.Model):
 class FoodInMenu(models.Model):
     food_type = models.ForeignKey(FoodType)
     menu = models.ForeignKey(Menu)
+    can_cook = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.food_type.name) + " - " + str(self.menu.name)
