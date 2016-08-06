@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% include 'material/includes/material_css.html' %}
+{% include 'material/includes/material_js.html' %}
+{% load material_form %}
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+{#    {% form form=form %}{% endform %}#}
+    <button type="submit" name="_login" class="btn"> ذخیره تغییرات</button>
+    <br>
+</form>
+</body>
+</html>
