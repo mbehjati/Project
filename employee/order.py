@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
 from restaurant.models import Branch, Order, FoodType, Food, Cook, CookAbility, DeliveryMan, OrderDeliveryMan, Employee, \
-    Waiter, OrderWaiter, FoodCook, MyUser, Setting
+    Waiter, OrderWaiter, FoodCook, MyUser, Setting, PeriodicOrder, Chair, ChairInOrder, Parking, ParkingInOrder
 
 
 def choose_cook(cooks):
@@ -66,7 +66,7 @@ def submit_order(request):
 
     foods_order = []
     for f_type in FoodType.objects.all():
-        val = request.POST.get(f_type.name,0)
+        val = request.POST.get(f_type.name, 0)
         if val != '' and val != 0:
             food = Food(food_type=f_type, order=order, number=val, status=False)
             food.save()
@@ -99,9 +99,11 @@ def submit_order_customer(user, branch, date, time, dic):
         food.save()
 
 
-def confirm_order(order):
+def confirm_order(order, discount, has_child, place, chair, parking):
     order.is_permanent = True
     order.is_changable = False
+    order.has_child = has_child
+    order.place=place
     order.save()
 
     foods_order = []
@@ -117,6 +119,20 @@ def confirm_order(order):
         cook = choose_cook(cooks)
         foodcook = FoodCook(cook=cook, food=food, done=False)
         foodcook.save()
+
+    ch_num= 0
+    for ch in Chair.objects.all():
+        if ch.state == 0 and ch_num < chair:
+            cho = ChairInOrder(chair=ch , order=order)
+            cho.save()
+            ch_num += 1
+
+    p_num = 0
+    for p in Parking.objects.all():
+        if p.state == 0 and p_num < parking:
+            po = ParkingInOrder(parking=p, order=order)
+            po.save()
+            p_num += 1
 
 
 def calculate_price(order):
@@ -155,14 +171,14 @@ def food_suggest():
         last_foods = []
         for o in Order.objects.order_by('-date'):
             for f in Food.objects.all():
-                if f.order == o :
+                if f.order == o:
                     last_foods.append(f)
         ordered_food = []
         number = 0
         for f in last_foods:
-            if not f.food_type in ordered_food and number<4:
+            if not f.food_type in ordered_food and number < 4:
                 ordered_food.append(f.food_type)
-                number +=1
+                number += 1
 
     result =[]
 
@@ -177,10 +193,53 @@ def chef_suggest():
         number = 0
         chef_food = None
         for ability in CookAbility.objects.all():
-            if ability.cook == c and ability.number>number:
+            if ability.cook == c and ability.number > number:
                 chef_food = ability.ability
                 number = ability.number
-        if chef_food!=None:
+        if chef_food != None:
             ans.append(chef_food)
     print(ans)
     return ans
+
+
+def submit_periodic_order(start_date, time, weekdays, number_of_weeks, food_dic, user):
+    d = start_date
+    trackID = int(uuid.uuid4().time_low) + int(uuid.uuid4().time_mid)
+    branch = None
+    order = Order(trackID=trackID, is_changable=True, is_permanent=False, branch=branch, date=start_date, time=
+    time, place=True, user=user)
+
+    p_order = PeriodicOrder(weeks_num=weekdays, number_of_weeks=number_of_weeks)
+
+    order.periodic = p_order
+    order.save()
+    # TODO weekdays format
+    weekdays_arr = weekdays.split(',')
+
+    for day in weekdays_arr:
+        d = start_date
+        for i in range(0, number_of_weeks):
+            while d.weekday() != int(day):
+                d += datetime.timedelta(1)
+            for key, val in food_dic:
+                food = Food(food_type=key, val=val, order=order)
+                food.save()
+
+
+def confirm_periodic_order(order):
+    order.is_permanent = True
+    order.is_changable = False
+    order.save()
+
+    foods = []
+    for f in Food.objects.all():
+        if f.order == order:
+            foods.append(f)
+    for food in foods:
+        cooks = []
+        for c in CookAbility.objects.all():
+            if c.ability == food.food_type:
+                cooks.append(c.cook)
+        cook = choose_cook(cooks)
+        foodcook = FoodCook(cook=cook, food=food, done=False , deadline=food.date)
+        foodcook.save()

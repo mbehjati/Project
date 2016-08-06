@@ -172,21 +172,6 @@ class CommentEmp(models.Model):
     employee = models.ForeignKey(Employee, related_name="emp")
 
 
-class Order(models.Model):
-    is_permanent = models.BooleanField()
-    is_changable = models.BooleanField()
-    has_child = models.NullBooleanField()
-    place = models.BooleanField(default='True', choices=((0, 'منزل'),
-                                                         (1, 'حضوری'),))
-    trackID = models.IntegerField(primary_key=True)
-    branch = models.ForeignKey(Branch)
-    user = models.ForeignKey(MyUser , null=True)
-    date = models.DateField()
-    time = models.TimeField()
-    is_done = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.trackID)
 
 
 class Menu(models.Model):
@@ -201,10 +186,26 @@ class Menu(models.Model):
 
 
 class PeriodicOrder(models.Model):
-    weeks_num = models.IntegerField()
-    # TODO: DayList
-    trackID = models.IntegerField()
+    weeks_num = models.CommaSeparatedIntegerField(max_length=7)
+    number_of_weeks = models.IntegerField()
+
+
+class Order(models.Model):
+    is_permanent = models.BooleanField()
+    is_changable = models.BooleanField()
+    has_child = models.NullBooleanField()
+    place = models.BooleanField(default='True', choices=((0, 'منزل'),
+                                                         (1, 'حضوری'),))
+    trackID = models.IntegerField(primary_key=True)
     branch = models.ForeignKey(Branch)
+    user = models.ForeignKey(MyUser , null=True)
+    date = models.DateField()
+    time = models.TimeField()
+    is_done = models.BooleanField(default=False)
+    periodic = models.ForeignKey(PeriodicOrder , null=True)
+
+    def __str__(self):
+        return str(self.trackID)
 
 
 
@@ -221,6 +222,7 @@ class Food(models.Model):
     status = models.BooleanField()
     order = models.ForeignKey(Order)
     number = models.IntegerField()
+    date = models.DateField(null=True)
     # TODO: what to do ?!
 
     def __str__(self):
@@ -345,6 +347,7 @@ class FoodCook(models.Model):
     food = models.ForeignKey(Food)
     cook = models.ForeignKey(Cook)
     done = models.BooleanField(default=False)
+    deadline = models.DateField(null=True)
 
     def __str__(self):
         return str(self.food.food_type.name) + ' برای سفارش ' + str(self.food.order.trackID) + ' : تعداد ' + str(self.food.number)
@@ -359,6 +362,7 @@ class OrderDeliveryMan(models.Model):
     order = models.ForeignKey(Order)
     deliveryman = models.ForeignKey(DeliveryMan)
     done = models.BooleanField()
+    deadline = models.DateField(null=True)
 
     def __str__(self):
         return 'سفارش شماره‌ي : ' + str(self.order.trackID)
@@ -368,6 +372,8 @@ class OrderWaiter(models.Model):
     order = models.ForeignKey(Order)
     waiter = models.ForeignKey(Waiter)
     done = models.BooleanField()
+    deadline = models.DateField(null=True)
+
 
     def __str__(self):
         return 'سفارش شماره‌ی : '+ str(self.order.trackID)

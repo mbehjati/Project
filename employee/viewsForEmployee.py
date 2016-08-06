@@ -410,6 +410,9 @@ def check_done_waiter_duty(picked):
     for d in done:
         d.done = True
         d.save()
+        o = d.order
+        o.is_done = True
+        o.save()
 
 
 def duty_list_waiter(request):
@@ -442,6 +445,9 @@ def check_done_delivery_duty(picked):
     for d in done:
         d.done = True
         d.save()
+        o = d.order
+        o.is_done = True
+        o.save()
 
 
 def duty_list_deliveryman(request):
