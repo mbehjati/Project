@@ -195,7 +195,7 @@ def show_branch_menu(request, branch_id):
             off = FoodOffer.objects.filter(food=foodo).values_list('offer', flat=True)
             dic.append((foodo, off))
         print(dic)
-    return render(request, 'restaurant/branchm.html', {'menu': a, 'branch_id': branch_id, 'dic': dic , 'recom':recom})
+    return render(request, 'restaurant/branchm.html', {'menu': a, 'branch_id': branch_id, 'dic': dic , 'recom':recom, 'chef':chef})
 
 
 def order(request):
@@ -230,4 +230,4 @@ def order(request):
             off = FoodOffer.objects.filter(food=foodo).values_list('offer', flat=True)
             dic.append((foodo, off))
         print(dic)
-    return render(request, 'restaurant/order.html', {'menu': menu, 'dic': dic, 'recom': recom})
+    return render(request, 'restaurant/order.html', {'menu': menu, 'dic': dic, 'recom': recom, 'chef':chef})
